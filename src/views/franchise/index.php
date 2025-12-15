@@ -1,12 +1,11 @@
-<!doctype html>
-<html lang="fr">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Franchisé - Driv'n Cook</title>
-  <link rel="stylesheet" href="/assets/css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
 <body>
-  <h1>Tableau de bord Franchisé</h1>
-  <p>Bienvenue dans l'espace franchisé.</p>
+    <h1>salut</h1>
 </body>
 </html>

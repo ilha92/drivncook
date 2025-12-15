@@ -1,36 +1,81 @@
 <?php
-// public/register.php
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../src/controllers/AuthController.php';
-$message = null;
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $result = AuthController::register($_POST);
-  if ($result['success']) {
-    header('Location: /public/login.php?registered=1');
-    exit;
-  } else {
-    $message = $result['message'];
-  }
+require_once "../config/database.php";
+
+$message = "";
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+    $nom = $_POST["nom"];
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+    $ville = $_POST["ville"];
+    $telephone = $_POST["telephone"];
+    $date_creation = date('Y-m-d H:i:s');
+
+    // Vérifier si l'email existe déjà
+    $sql = "SELECT * FROM franchises WHERE email = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$email]);
+    $user = $stmt->fetch();
+
+    if ($user) {
+        // L'email existe déjà
+        $message = "Cet email est déjà utilisé ❌";
+    } else {
+        // Hash du mot de passe
+        $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+
+        // Insérer le nouvel utilisateur
+        $sql = "INSERT INTO franchises (nom, email, mot_de_passe, ville, telephone, date_creation)
+                VALUES (?, ?, ?, ?, ?, ?)";
+        $stmt = $pdo->prepare($sql);
+        if ($stmt->execute([$nom, $email, $passwordHash, $ville, $telephone, $date_creation])) {
+            // Inscription réussie → redirection vers login.php
+            header("Location: /public/login.php");
+            exit;
+            
+            $message = "Inscription réussie ✅";
+            
+        } else {
+            $message = "Erreur lors de l'inscription ❌";
+        }
+    }
 }
 ?>
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <title>Inscription - Driv'n Cook</title>
-  <link rel="stylesheet" href="/assets/css/style.css">
+    <meta charset="UTF-8">
+    <title>Inscription franchisé</title>
 </head>
 <body>
-  <h1>Inscription franchisé</h1>
-  <?php if (!empty($message)): ?>
-    <p style="color:red"><?=htmlspecialchars($message)?></p>
-  <?php endif; ?>
-  <form method="post" action="/public/register.php">
-    <label>Nom complet: <input type="text" name="name" required></label><br>
-    <label>Email: <input type="email" name="email" required></label><br>
-    <label>Mot de passe: <input type="password" name="password" required></label><br>
+
+<h1>Inscription franchisé</h1>
+
+<form method="POST" action="">
+    <label>Nom :</label><br>
+    <input type="text" name="nom" required><br><br>
+
+    <label>Email :</label><br>
+    <input type="email" name="email" required><br><br>
+
+    <label>Mot de passe :</label><br>
+    <input type="password" name="password" required><br><br>
+
+    <label>Ville :</label><br>
+    <input type="text" name="ville" required><br><br>
+
+    <label>Téléphone :</label><br>
+    <input type="text" name="telephone" required><br><br>   
+
+       <!-- Affichage du message -->
+    <?php if(!empty($message)): ?>
+        <p style="color: red; font-weight: bold;"><?php echo $message; ?></p>
+    <?php endif; ?>
+<br>
     <button type="submit">S'inscrire</button>
-  </form>
-  <p><a href="/public/login.php">Déjà inscrit ? Se connecter</a></p>
+</form>
+
 </body>
 </html>

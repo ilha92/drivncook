@@ -8,7 +8,6 @@ connexion
 
 déconnexion
 
-rôle : admin / franchise
 
 🧩 Module 2 – Gestion des franchisés
 
