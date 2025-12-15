@@ -1,0 +1,6 @@
+# .gitignore
+/vendor/
+/.env
+/.idea/
+/.vscode/
+.DS_Store

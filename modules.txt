@@ -1,0 +1,51 @@
+Transformation en MODULES SIMPLES (Mission 1)
+
+On va découper le projet en modules indépendants 👇
+
+🧩 Module 1 – Authentification (BASE)
+
+connexion
+
+déconnexion
+
+rôle : admin / franchise
+
+🧩 Module 2 – Gestion des franchisés
+
+CRUD franchisé
+
+back-office uniquement
+
+🧩 Module 3 – Camions
+
+créer un camion
+
+attribuer à un franchisé
+
+état du camion
+
+🧩 Module 4 – Entretien & pannes
+
+ajouter une panne
+
+historique entretien
+
+🧩 Module 5 – Approvisionnement
+
+créer commande
+
+pourcentage 80% / 20% (simple)
+
+🧩 Module 6 – Ventes
+
+saisir une vente
+
+historique
+
+total mensuel
+
+🧩 Module 7 – PDF
+
+PDF ventes
+
+PDF historique
