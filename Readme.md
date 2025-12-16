@@ -54,15 +54,6 @@ drivncook/
 │   │   ├── Adminr.php
 │   │   ├── Franchise.php
 │   │   └── Camion.php
-│   │
-│   ├── controllers/
-│   │   ├── AuthController.php
-│   │   ├── FranchiseController.php
-│   │   └── CamionController.php
-│   │
-│   └── views/
-│       ├── admin/
-│       └── franchise/
 │
 ├── assets/
 │   ├── css/
