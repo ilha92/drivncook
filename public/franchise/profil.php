@@ -9,10 +9,10 @@ if (!isset($_SESSION["type"]) || $_SESSION["type"] !== "franchise") {
 
 $franchise_id = $_SESSION["franchise_id"];
 
-$sql = "SELECT * FROM franchises WHERE id = ?";
-$stmt = $pdo->prepare($sql);
-$stmt->execute([$franchise_id]);
-$franchise = $stmt->fetch();
+require_once "../../src/models/Franchise.php";
+
+$franchise = Franchise::getById($pdo, $_SESSION["franchise_id"]);
+
 ?>
 
 <!DOCTYPE html>

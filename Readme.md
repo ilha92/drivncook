@@ -51,7 +51,7 @@ drivncook/
 │
 ├── src/
 │   ├── models/
-│   │   ├── Adminr.php
+│   │   ├── Admin.php
 │   │   ├── Franchise.php
 │   │   └── Camion.php
 │

@@ -1,6 +1,8 @@
 <?php
 session_start();
 require_once "../../config/database.php";
+require_once "../../src/models/Franchise.php";
+
 
 if (!isset($_SESSION["type"]) || $_SESSION["type"] !== "franchise") {
     header("Location: ../login.php");
@@ -15,18 +17,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $ville = $_POST["ville"];
     $telephone = $_POST["telephone"];
 
-    $sql = "UPDATE franchises SET email = ?, ville = ?, telephone = ? WHERE id = ?";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$email, $ville, $telephone, $franchise_id]);
+    Franchise::updateProfil($pdo, $ville, $telephone, $franchise_id);
+
 
     header("Location: profil.php");
     exit;
 }
-
-$sql = "SELECT * FROM franchises WHERE id = ?";
-$stmt = $pdo->prepare($sql);
-$stmt->execute([$franchise_id]);
-$franchise = $stmt->fetch();
+// Récupération des infos
+$franchise = Franchise::getById($pdo, $franchise_id);
 ?>
 
 <!DOCTYPE html>
