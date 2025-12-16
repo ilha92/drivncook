@@ -22,6 +22,9 @@ if (!isset($_SESSION["type"]) || $_SESSION["type"] !== "franchise") {
     <li><a href="achat.php">Mes achats</a></li>
     <li><a href="nouvelle_ventes.php">Nouvelle vente</a></li>
     <li><a href="ventes.php">Mes ventes</a></li>
+    <li><a href="camions.php">Mes camions</a></li>
+    <li><a href="entretien.php?id=1">Carnet d'entretien (exemple camion ID 1)</a></li>
+    <li><a href="panne.php?id=1">Déclarer panne (exemple camion ID 1)</a></li>
 </ul>
 
 <a href="../logout.php">Se déconnecter</a>
