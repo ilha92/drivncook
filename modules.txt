@@ -48,3 +48,66 @@ total mensuel
 PDF ventes
 
 PDF historique
+
+
+
+Mission 1 : Gestion des Services Franchisés - Explications Détaillées
+📋 Contexte
+Driv'n Cook utilise actuellement des feuilles Excel pour gérer ses franchisés, ce qui n'est plus adapté à leur croissance. Ils ont besoin d'un ERP web complet pour moderniser leur gestion.
+🎯 Objectifs Principaux
+Vous devez développer une application web avec deux interfaces distinctes :
+1️⃣ BACK-OFFICE (pour Driv'n Cook - administration)
+Interface pour les employés de Driv'n Cook permettant de gérer :
+A. Gestion des Franchisés
+
+Enregistrer les nouveaux franchisés
+Stocker leurs informations (nom, contact, date d'entrée, etc.)
+Gérer le droit d'entrée de 50 000€
+Calculer et suivre les 4% du CA à reverser à la société mère
+Consulter l'historique de chaque franchisé
+
+B. Gestion du Parc de Camions
+
+Attribuer un camion à chaque franchisé
+Gérer l'emplacement/localisation de chaque camion
+Gérer les pannes (date, type de panne, réparation)
+Tenir un carnet d'entretien pour chaque camion (révisions, maintenance)
+Historique des déplacements
+
+C. Gestion des Approvisionnements
+
+Enregistrer les commandes des franchisés
+Gérer les 4 entrepôts d'Ile-de-France
+Suivre le stock disponible dans chaque entrepôt
+Valider/traiter les commandes
+
+D. Analyse des Ventes
+
+Visualiser le chiffre d'affaires de chaque franchisé
+Générer des statistiques et rapports
+Historique des ventes
+Génération automatique de rapports PDF (CA, statistiques, etc.)
+
+2️⃣ FRONT-OFFICE (pour les franchisés)
+Interface personnelle pour chaque franchisé permettant de :
+A. Espace Personnel
+
+Se connecter à son compte
+Consulter/modifier ses informations
+Voir son chiffre d'affaires
+Consulter l'historique de ses ventes
+
+B. Gestion des Commandes
+
+Commander des produits auprès des entrepôts
+Respecter la règle : 80% du stock obligatoirement chez Driv'n Cook, 20% libre
+Choisir l'entrepôt de livraison
+Suivre l'état de ses commandes
+
+C. Gestion du Camion
+
+Voir les informations de son camion
+Consulter le carnet d'entretien
+Signaler une panne
+
+ 

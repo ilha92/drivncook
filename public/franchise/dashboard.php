@@ -14,7 +14,7 @@ if (!isset($_SESSION["type"]) || $_SESSION["type"] !== "franchise") {
 </head>
 <body>
 
-<h1>Espace franchisé</h1>
+<h1>Mon Espace franchisé [<?= $franchise["nom"] ?>]</h1>
 
 <ul>
     <li><a href="profil.php">Mon profil</a></li>

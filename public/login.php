@@ -48,7 +48,7 @@ if ($franchise && password_verify($password, $franchise["mot_de_passe"])) {
 
 
     // Si aucun des deux ne correspond
-    $message = "Email ou mot de passe incorrect ❌";
+    $message = "Email ou mot de passe incorrect ";
 }
 ?>
 

@@ -13,10 +13,9 @@ try {
         $password
     );
 
-    // Affiche les erreurs SQL (utile pour débutant)
+    // Affiche les erreurs SQsL (utile pour débutant)
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 } catch (PDOException $e) {
-    // Message si la connexion échoue
     die("Erreur de connexion à la base de données : " . $e->getMessage());
 }
