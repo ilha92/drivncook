@@ -1,5 +1,34 @@
 <?php
+session_start();
 
-require_once "../config/database.php";
+// Si l'utilisateur n'est pas connecté
+if (!isset($_SESSION["type"])) {
+    header("Location: login.php");
+    exit;
+}
+?>
 
-echo "Connexion à la base de données OK ✅";
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Accueil</title>
+</head>
+<body>
+
+<h1>Accueil</h1>
+
+<?php
+if ($_SESSION["type"] === "admin") {
+    echo "<p>Bienvenue Administrateur 👑</p>";
+}
+
+if ($_SESSION["type"] === "franchise") {
+    echo "<p>Bienvenue Franchisé 🚚</p>";
+}
+?>
+
+<a href="logout.php">Se déconnecter</a>
+
+</body>
+</html>

@@ -58,7 +58,7 @@ CREATE TABLE approvisionnements (
  
 
  /*
- -- db/schema.sql
+-- db/schema.sql
 CREATE DATABASE IF NOT EXISTS drivncook CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE drivncook;
 
@@ -115,5 +115,31 @@ CREATE TABLE approvisionnements (
     FOREIGN KEY (franchise_id) REFERENCES franchises(id)
 );
 
+CREATE TABLE entrepots (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(100) NOT NULL,
+    ville VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE achats (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    franchise_id INT NOT NULL,
+    entrepot_id INT,
+    montant_total DECIMAL(10,2) NOT NULL,
+    pourcentage_entrepot DECIMAL(5,2) NOT NULL,
+    date_achat DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (franchise_id) REFERENCES franchises(id),
+    FOREIGN KEY (entrepot_id) REFERENCES entrepots(id)
+);
+
+
 INSERT INTO admins (nom, email, mot_de_passe) VALUES ('Admin', 'admin@drivncook.com', '$2y$10$XxpPYzd9KNCRCvWx1eHRNOBevy8XQhHxNlEbQr1D072Hzh/fapMhu');
+
+INSERT INTO entrepots (nom, ville) VALUES
+('Entrepôt Paris Nord', 'Paris'),
+('Entrepôt Paris Sud', 'Paris'),
+('Entrepôt Est', 'Créteil'),
+('Entrepôt Ouest', 'Nanterre');
+
+
 */

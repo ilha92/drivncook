@@ -34,6 +34,13 @@ Le projet est organisé de manière claire afin de séparer les responsabilités
 drivncook/
 │
 ├── public/
+  ├── franchise/
+│   ├── dashboard.php
+│   ├── profil.php
+│   ├── edit_profil.php
+│   ├── achats.php
+│   └── nouvel_achat.php
+
 │   ├── index.php
 │   ├── login.php
 │   ├── register.php
