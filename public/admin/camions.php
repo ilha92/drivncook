@@ -12,36 +12,67 @@ if (!isset($_SESSION["type"]) || $_SESSION["type"] !== "admin") {
 $action = $_GET["action"] ?? "list";
 $id = $_GET["id"] ?? null;
 
-if ($action === "add" && $_SERVER["REQUEST_METHOD"] === "POST") {
-    Camion::create($pdo, $_POST["immatriculation"], $_POST["modele"], $_POST["franchise_id"] ?: null);
-    header("Location: camions.php");
-    exit;
-}
-
+/* =======================
+   SUPPRESSION
+======================= */
 if ($action === "delete" && $id) {
     Camion::delete($pdo, $id);
     header("Location: camions.php");
     exit;
 }
 
-if ($action === "reparer" && $id) {
-    Camion::reparerCamion($pdo, $id);
+/* =======================
+   AJOUT
+======================= */
+if ($action === "add" && $_SERVER["REQUEST_METHOD"] === "POST") {
+    Camion::create(
+        $pdo,
+        $_POST["immatriculation"],
+        $_POST["modele"],
+        $_POST["statut"],
+        $_POST["franchise_id"] ?: null
+    );
     header("Location: camions.php");
     exit;
 }
 
-$camions = Camion::getAll($pdo);
+/* =======================
+   MODIFICATION
+======================= */
+if ($action === "edit" && $id && $_SERVER["REQUEST_METHOD"] === "POST") {
+    Camion::update(
+        $pdo,
+        $_POST["immatriculation"],
+        $_POST["modele"],
+        $_POST["statut"],
+        $_POST["franchise_id"] ?: null,
+        $id
+    );
+    header("Location: camions.php");
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
-<html>
-<head><meta charset="UTF-8"><title>Admin - Camions</title></head>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Camions</title>
+</head>
 <body>
 
 <h1>Gestion du parc de camions</h1>
+
+<!-- =======================
+     LISTE
+======================= -->
+<?php if ($action === "list"): 
+$camions = Camion::getAll($pdo);
+?>
+
 <a href="?action=add">➕ Ajouter un camion</a><br><br>
 
-<table border="1">
+<table border="1" cellpadding="5">
 <tr>
     <th>Immatriculation</th>
     <th>Modèle</th>
@@ -49,36 +80,97 @@ $camions = Camion::getAll($pdo);
     <th>Franchisé</th>
     <th>Actions</th>
 </tr>
+
 <?php foreach ($camions as $c): ?>
 <tr>
-    <td><?= $c["immatriculation"] ?></td>
-    <td><?= $c["modele"] ?></td>
-    <td><?= $c["statut"] ?></td>
-    <td><?= $c["nom"] ?? "Libre" ?></td>
+    <td><?= htmlspecialchars($c["immatriculation"]) ?></td>
+    <td><?= htmlspecialchars($c["modele"]) ?></td>
+    <td><?= htmlspecialchars($c["statut"]) ?></td>
+    <td><?= $c["franchise_nom"] ?? "Non attribué" ?></td>
     <td>
-        <a href="?action=reparer&id=<?= $c["id"] ?>" onclick="return confirm('Réparer ?')">✅ Réparer</a>
-        <a href="?action=delete&id=<?= $c["id"] ?>" onclick="return confirm('Supprimer ?')">🗑️</a>
+        <a href="?action=edit&id=<?= $c["id"] ?>">✏️</a>
+        <a href="?action=delete&id=<?= $c["id"] ?>"
+           onclick="return confirm('Supprimer ce camion ?')">🗑️</a>
     </td>
 </tr>
 <?php endforeach; ?>
 </table>
 
-<?php if ($action === "add"):
+<?php endif; ?>
+
+<!-- =======================
+     AJOUT
+======================= -->
+<?php if ($action === "add"): 
 $franchises = Franchise::getAll($pdo);
 ?>
-<h2>Nouveau camion</h2>
-<form method="POST">
-    <input name="immatriculation" required placeholder="Immatriculation"><br><br>
-    <input name="modele" required placeholder="Modèle"><br><br>
-    <select name="franchise_id">
-        <option value="">-- Libre --</option>
-        <?php foreach ($franchises as $f): ?>
-            <option value="<?= $f['id'] ?>"><?= $f['nom'] ?></option>
+
+<h2>Ajouter un camion</h2>
+
+<form method="POST" action="?action=add">
+    <input name="immatriculation" placeholder="Immatriculation" required><br><br>
+    <label>Modèle</label><br>
+    <select name="modele" required>
+        <?php foreach (Camion::getModeles() as $modele): ?>
+            <option value="<?= $modele ?>"><?= $modele ?></option>
         <?php endforeach; ?>
     </select><br><br>
+
+    <select name="statut">
+        <option value="actif">Disponible</option>
+        <option value="panne">En panne</option>
+        <option value="maintenance">Maintenance</option>
+    </select><br><br>
+
+    <select name="franchise_id">
+        <option value="">-- Non attribué --</option>
+        <?php foreach ($franchises as $f): ?>
+            <option value="<?= $f["id"] ?>"><?= $f["nom"] ?></option>
+        <?php endforeach; ?>
+    </select><br><br>
+
     <button>Créer</button>
 </form>
+
+<a href="camions.php">⬅ Retour</a>
+
 <?php endif; ?>
-<a href="dashboard.php">⬅ Retour</a>
+
+<!-- =======================
+     MODIFICATION
+======================= -->
+<?php if ($action === "edit" && $id): 
+$camion = Camion::getById($pdo, $id);
+$franchises = Franchise::getAll($pdo);
+?>
+
+<h2>Modifier le camion</h2>
+
+<form method="POST" action="?action=edit&id=<?= $id ?>">
+    <input name="immatriculation" value="<?= $camion["immatriculation"] ?>"><br><br>
+    <input name="modele" value="<?= $camion["modele"] ?>"><br><br>
+
+    <select name="statut">
+        <option value="actif" <?= $camion["statut"]=="actif"?"selected":"" ?>>Disponible</option>
+        <option value="panne" <?= $camion["statut"]=="panne"?"selected":"" ?>>En panne</option>
+        <option value="maintenance" <?= $camion["statut"]=="maintenance"?"selected":"" ?>>Maintenance</option>
+    </select><br><br>
+
+    <select name="franchise_id">
+        <option value="">-- Non attribué --</option>
+        <?php foreach ($franchises as $f): ?>
+            <option value="<?= $f["id"] ?>" <?= $camion["franchise_id"]==$f["id"]?"selected":"" ?>>
+                <?= $f["nom"] ?>
+            </option>
+        <?php endforeach; ?>
+    </select><br><br>
+
+    <button>Enregistrer</button>
+</form>
+
+<a href="camions.php">⬅ Retour</a>
+
+<?php endif; ?>
+
 </body>
 </html>
