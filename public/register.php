@@ -25,11 +25,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // Hash du mot de passe
         $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
+
+        //id	nom	email	mot_de_passe	ville	telephone	date_entree, droit_entree, created_at
         // Insérer le nouvel utilisateur
-        $sql = "INSERT INTO franchises (nom, email, mot_de_passe, ville, telephone, date_creation)
-                VALUES (?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO franchises (nom, email, mot_de_passe, ville, telephone, date_entree, droit_entree, created_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $pdo->prepare($sql);
-        if ($stmt->execute([$nom, $email, $passwordHash, $ville, $telephone, $date_creation])) {
+        if ($stmt->execute([$nom, $email, $passwordHash, $ville, $telephone, $date_creation, 0, $date_creation])) {
             // Inscription réussie → redirection vers login.php
             header("Location: /public/login.php");
             exit;

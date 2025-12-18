@@ -14,10 +14,11 @@ $franchise_id = $_SESSION["franchise_id"];
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $email = $_POST["email"];
+    $password = $_POST["password"];
     $ville = $_POST["ville"];
     $telephone = $_POST["telephone"];
 
-    Franchise::updateProfil($pdo, $ville, $telephone, $franchise_id);
+    Franchise::updateProfil($pdo, $email, $ville, $telephone, $password, $franchise_id);
 
 
     header("Location: profil.php");
@@ -40,6 +41,9 @@ $franchise = Franchise::getById($pdo, $franchise_id);
 <form method="POST">
     <label>Email :</label><br>
     <input type="email" name="email" value="<?= $franchise["email"] ?>"><br><br>
+
+    <label>Changer votre mot de passe (laisser vide pour ne pas changer) :</label><br>
+    <input type="password" name="password" value=""><br><br>
 
     <label>Ville :</label><br>
     <input type="text" name="ville" value="<?= $franchise["ville"] ?>"><br><br>
