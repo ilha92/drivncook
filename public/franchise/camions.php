@@ -52,7 +52,7 @@ if ($action === "panne" && $_SERVER["REQUEST_METHOD"] === "POST") {
 </tr>
 <?php endforeach; ?>
 </table>
-
+<a href="dashboard.php">Dashboard Franchise</a>
 <?php if ($action === "panne" && $id): ?>
 <h2>Déclarer une panne</h2>
 <form method="POST">
@@ -62,6 +62,7 @@ if ($action === "panne" && $_SERVER["REQUEST_METHOD"] === "POST") {
     <textarea name="description" placeholder="Description"></textarea><br><br>
     <button>Envoyer</button>
 </form>
+<a href="camions.php">retour</a>
 <?php endif; ?>
 
 </body>
