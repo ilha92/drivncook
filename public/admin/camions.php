@@ -95,7 +95,7 @@ $camions = Camion::getAll($pdo);
 </tr>
 <?php endforeach; ?>
 </table>
-
+<a href="dashboard.php">Dashboard Admin</a>
 <?php endif; ?>
 
 <!-- =======================
@@ -108,6 +108,7 @@ $franchises = Franchise::getAll($pdo);
 <h2>Ajouter un camion</h2>
 
 <form method="POST" action="?action=add">
+    <label>Immatriculation</label><br>
     <input name="immatriculation" placeholder="Immatriculation" required><br><br>
     <label>Modèle</label><br>
     <select name="modele" required>
@@ -115,13 +116,14 @@ $franchises = Franchise::getAll($pdo);
             <option value="<?= $modele ?>"><?= $modele ?></option>
         <?php endforeach; ?>
     </select><br><br>
-
+    <label>Statut</label><br>
     <select name="statut">
         <option value="actif">Disponible</option>
         <option value="panne">En panne</option>
         <option value="maintenance">Maintenance</option>
     </select><br><br>
 
+    <label>Attribuer à un franchisé</label><br>
     <select name="franchise_id">
         <option value="">-- Non attribué --</option>
         <?php foreach ($franchises as $f): ?>
@@ -147,15 +149,21 @@ $franchises = Franchise::getAll($pdo);
 <h2>Modifier le camion</h2>
 
 <form method="POST" action="?action=edit&id=<?= $id ?>">
-    <input name="immatriculation" value="<?= $camion["immatriculation"] ?>"><br><br>
-    <input name="modele" value="<?= $camion["modele"] ?>"><br><br>
-
+    <label>Immatriculation</label><br>
+    <input name="immatriculation" placeholder="Immatriculation" required><br><br>
+    <label>Modèle</label><br>
+    <select name="modele" required>
+        <?php foreach (Camion::getModeles() as $modele): ?>
+            <option value="<?= $modele ?>"><?= $modele ?></option>
+        <?php endforeach; ?>
+    </select><br><br>
+    <label>Statut</label><br>
     <select name="statut">
         <option value="actif" <?= $camion["statut"]=="actif"?"selected":"" ?>>Disponible</option>
         <option value="panne" <?= $camion["statut"]=="panne"?"selected":"" ?>>En panne</option>
         <option value="maintenance" <?= $camion["statut"]=="maintenance"?"selected":"" ?>>Maintenance</option>
     </select><br><br>
-
+    <label>Attribuer à un franchisé</label><br>
     <select name="franchise_id">
         <option value="">-- Non attribué --</option>
         <?php foreach ($franchises as $f): ?>
