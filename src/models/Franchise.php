@@ -59,12 +59,12 @@ class Franchise
        MÉTHODES FRANCHISÉ
        ========================= */
 
-    // Modifier son profil (email, ville + téléphone)
-    public static function updateProfil($pdo, $email, $ville, $telephone, $password, $id)
+    // Modifier son profil (email, ville + téléphone + mot de passe)
+    public static function updateProfil($pdo, $email, $nom, $ville, $telephone, $password, $id)
     {
-        $sql = "UPDATE franchises SET email = ?, ville = ?, telephone = ?, mot_de_passe = ? WHERE id = ?";
+        $sql = "UPDATE franchises SET email = ?, nom = ?, ville = ?, telephone = ?, mot_de_passe = ? WHERE id = ?";
         $stmt = $pdo->prepare($sql);
-        return $stmt->execute([$email, $ville, $telephone, password_hash($password, PASSWORD_DEFAULT), $id]);
+        return $stmt->execute([$email, $nom, $ville, $telephone, password_hash($password, PASSWORD_DEFAULT), $id]);
     }
 
     // Modifier son email
@@ -81,7 +81,6 @@ class Franchise
         $stmt = $pdo->prepare("UPDATE franchises SET mot_de_passe = ? WHERE id = ?");
         return $stmt->execute([$hash, $id]);
     }
-
     /* =========================
        HISTORIQUE
        ========================= */
