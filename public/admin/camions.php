@@ -51,8 +51,8 @@ if ($action === "edit" && $id && $_SERVER["REQUEST_METHOD"] === "POST") {
     header("Location: camions.php");
     exit;
 }
-?>
 
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -69,7 +69,6 @@ if ($action === "edit" && $id && $_SERVER["REQUEST_METHOD"] === "POST") {
 <?php if ($action === "list"): 
 $camions = Camion::getAll($pdo);
 ?>
-
 <a href="?action=add">➕ Ajouter un camion</a><br><br>
 
 <table border="1" cellpadding="5">
@@ -77,6 +76,8 @@ $camions = Camion::getAll($pdo);
     <th>Immatriculation</th>
     <th>Modèle</th>
     <th>Statut</th>
+    <th>Type de panne</th>
+    <th>Panne</th>
     <th>Franchisé</th>
     <th>Actions</th>
 </tr>
@@ -86,6 +87,8 @@ $camions = Camion::getAll($pdo);
     <td><?= htmlspecialchars($c["immatriculation"]) ?></td>
     <td><?= htmlspecialchars($c["modele"]) ?></td>
     <td><?= htmlspecialchars($c["statut"]) ?></td>
+    <td><?= htmlspecialchars($c["type_panne"] ?? "N/A") ?></td>
+    <td><?= htmlspecialchars($c["panne_description"] ?? "N/A") ?></td>
     <td><?= $c["franchise_nom"] ?? "Non attribué" ?></td>
     <td>
         <a href="?action=edit&id=<?= $c["id"] ?>">✏️</a>

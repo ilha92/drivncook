@@ -6,15 +6,26 @@ class Camion
        ADMIN
        ========================= */
 
-    public static function getAll($pdo)
-    {
-        $sql = "
-            SELECT camions.*, franchises.nom AS franchise_nom
-            FROM camions
-            LEFT JOIN franchises ON camions.franchise_id = franchises.id
-        ";
-        return $pdo->query($sql)->fetchAll();
-    }
+   public static function getAll($pdo)
+{
+    $sql = "
+        SELECT 
+            camions.*,
+            franchises.nom AS franchise_nom,
+            pannes.type_panne,
+            pannes.description AS panne_description
+        FROM camions
+        LEFT JOIN franchises 
+            ON camions.franchise_id = franchises.id
+        LEFT JOIN pannes 
+            ON pannes.camion_id = camions.id
+            AND pannes.reparée = 0
+        ORDER BY pannes.date_panne DESC
+    ";
+
+    return $pdo->query($sql)->fetchAll();
+}
+
 
     // 🔹 AJOUT : récupérer un camion par ID (admin)
     public static function getById($pdo, $id)
