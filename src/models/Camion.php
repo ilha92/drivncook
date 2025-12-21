@@ -98,6 +98,7 @@ class Camion
         return $stmt->execute([$camion_id]);
     }
 
+
     /* =========================
        FRANCHISÉ
        ========================= */

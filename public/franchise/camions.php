@@ -48,6 +48,7 @@ if ($action === "panne" && $_SERVER["REQUEST_METHOD"] === "POST") {
     <td><?= $c["statut"] ?></td>
     <td>
         <a href="?action=panne&id=<?= $c['id'] ?>">🚨 Déclarer panne</a>
+        <a href="?action=historique&id=<?= $c['id'] ?>">📜 Historique</a>
     </td>
 </tr>
 <?php endforeach; ?>
@@ -63,6 +64,33 @@ if ($action === "panne" && $_SERVER["REQUEST_METHOD"] === "POST") {
     <button>Envoyer</button>
 </form>
 <a href="camions.php">retour</a>
+<?php endif; ?>
+<?php if ($action === "historique" && $id): 
+$pannes = Camion::getPannes($pdo, $id);
+?>
+
+<h2>Historique des pannes</h2>
+
+<?php if (count($pannes) === 0): ?>
+    <p>Aucune panne enregistrée.</p>
+<?php else: ?>
+<table border="1">
+<tr>
+    <th>Date</th>
+    <th>Description</th>
+</tr>
+
+<?php foreach ($pannes as $p): ?>
+<tr>
+    <td><?= $p["date_panne"] ?></td>
+    <td><?= htmlspecialchars($p["description"]) ?></td>
+</tr>
+<?php endforeach; ?>
+</table>
+<?php endif; ?>
+
+<a href="camions.php">⬅ Retour</a>
+
 <?php endif; ?>
 
 </body>
