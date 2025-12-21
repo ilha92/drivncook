@@ -33,6 +33,11 @@ Le projet est organisé de manière claire afin de séparer les responsabilités
 ```text
 drivncook/
 │
+├── access/
+|   ├── login.php
+│   ├── register.php
+│   └── logout.php
+
 ├── public/
   ├── franchise/
 │   ├── dashboard.php
@@ -42,10 +47,7 @@ drivncook/
 │   └── nouvel_achat.php
 
 │   ├── index.php
-│   ├── login.php
-│   ├── register.php
-│   └── logout.php
-│
+
 ├── config/
 │   └── database.php
 │
