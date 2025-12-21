@@ -56,9 +56,8 @@ CREATE TABLE approvisionnements (
     FOREIGN KEY (franchise_id) REFERENCES franchises(id)
 );
  
-
- /*
--- db/schema.sql
+/* 
+-- db/schema.sqlm0
 CREATE DATABASE IF NOT EXISTS drivncook CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE drivncook;
 
@@ -80,13 +79,21 @@ CREATE TABLE admins (
     date_creation DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE camions (
+CREATE TABLE IF NOT EXISTS  camions (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    numero_camion VARCHAR(50) NOT NULL,
-    etat ENUM('actif', 'panne', 'maintenance') DEFAULT 'actif',
-    emplacement VARCHAR(150),
-    franchise_id INT,
+    franchise_id INT NOT NULL,
+    immatriculation VARCHAR(20) NOT NULL,
+    modele VARCHAR(100),
+	statut ENUM('actif', 'panne', 'maintenance') DEFAULT 'actif',
     FOREIGN KEY (franchise_id) REFERENCES franchises(id)
+);
+
+CREATE TABLE pannes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    camion_id INT NOT NULL,
+    description TEXT NOT NULL,
+    date_panne DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (camion_id) REFERENCES camions(id)
 );
 
 CREATE TABLE entretiens (
@@ -94,14 +101,13 @@ CREATE TABLE entretiens (
     camion_id INT NOT NULL,
     description TEXT,
     date_entretien DATE,
-    type ENUM('entretien', 'panne') NOT NULL,
     FOREIGN KEY (camion_id) REFERENCES camions(id)
 );
 
 CREATE TABLE ventes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     franchise_id INT NOT NULL,
-    date_vente DATE NOT NULL,
+    date_vente DATETIME DEFAULT CURRENT_TIMESTAMP,
     montant DECIMAL(10,2) NOT NULL,
     FOREIGN KEY (franchise_id) REFERENCES franchises(id)
 );
@@ -132,6 +138,24 @@ CREATE TABLE achats (
     FOREIGN KEY (entrepot_id) REFERENCES entrepots(id)
 );
 
+CREATE TABLE produits (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(100),
+    stock INT,
+    entrepot_id INT,
+    FOREIGN KEY (entrepot_id) REFERENCES entrepots(id)
+);
+
+CREATE TABLE commandes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    franchise_id INT,
+    produit_id INT,
+    quantite INT,
+    date_commande DATETIME DEFAULT CURRENT_TIMESTAMP,
+    statut VARCHAR(50) DEFAULT 'en attente',
+    FOREIGN KEY (franchise_id) REFERENCES franchises(id),
+    FOREIGN KEY (produit_id) REFERENCES produits(id)
+);
 
 INSERT INTO admins (nom, email, mot_de_passe) VALUES ('Admin', 'admin@drivncook.com', '$2y$10$XxpPYzd9KNCRCvWx1eHRNOBevy8XQhHxNlEbQr1D072Hzh/fapMhu');
 
@@ -141,5 +165,3 @@ INSERT INTO entrepots (nom, ville) VALUES
 ('Entrepôt Est', 'Créteil'),
 ('Entrepôt Ouest', 'Nanterre');
 
-
-*/
