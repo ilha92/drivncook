@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt = $pdo->prepare($sql);
         if ($stmt->execute([$nom, $email, $passwordHash, $ville, $telephone, $date_creation, 0, $date_creation])) {
             // Inscription réussie → redirection vers login.php
-            header("Location: /public/login.php");
+            header("Location: login.php");
             exit;
             
             $message = "Inscription réussie ✅";

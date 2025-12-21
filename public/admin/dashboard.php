@@ -25,7 +25,7 @@ if (!isset($_SESSION["type"]) || $_SESSION["type"] !== "admin") {
     <li><a href="camions.php">Camions</a></li>
 </ul>
 
-<a href="../logout.php">Se déconnecter</a>
+<a href="../../access/logout.php">Se déconnecter</a>
 
 </body>
 </html>

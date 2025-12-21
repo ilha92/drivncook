@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $_SESSION["type"] = "admin";
         $_SESSION["email"] = $admin["email"];
 
-        header("Location: index.php");
+        header("Location: ../public/index.php");
         exit;
     }
 
@@ -42,7 +42,7 @@ if ($franchise && password_verify($password, $franchise["mot_de_passe"])) {
     $_SESSION["email"] = $franchise["email"];
     $_SESSION["franchise_id"] = $franchise["id"];
 
-    header("Location: index.php");
+    header("Location: ../public/index.php");
     exit;
 }
 

@@ -3,7 +3,7 @@ session_start();
 
 // Si l'utilisateur n'est pas connecté
 if (!isset($_SESSION["type"])) {
-    header("Location: login.php");
+    header("Location: ../access/login.php");
     exit;
 }
 ?>
@@ -32,7 +32,6 @@ if ($_SESSION["type"] === "franchise") {
 }
 ?>
 
-<a href="logout.php">Se déconnecter</a>
-
+<a href="../../access/logout.php">Se déconnecter</a>
 </body>
 </html>
