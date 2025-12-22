@@ -112,3 +112,13 @@ Consulter le carnet d'entretien
 Signaler une panne
 
  
+
+
+ nouvelle ajout du 22/12/2025
+ ajout des produits pour les entrepots et gestion des stocks
+ suppression et modification des produits et l'Approvisionnement dans l'admin
+ gestion des produits par entrepot  
+
+a corriger dans les prochaines missions
+les doublon des stocks quand je modifie un produit
+la gestion des stocks dans l'admin (ajout/modif/suppression)

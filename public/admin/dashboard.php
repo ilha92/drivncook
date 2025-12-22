@@ -19,6 +19,7 @@ if (!isset($_SESSION["type"]) || $_SESSION["type"] !== "admin") {
 
 <ul>
     <li><a href="franchises.php">Franchisés</a></li>
+    <li><a href="produits.php">Nouveaux Produits</a></li>
     <li><a href="approvisionnements.php">Approvisionnements</a></li>
     <li><a href="ventes.php">Ventes</a></li>
     <li><a href="achats.php">Achats</a></li>
