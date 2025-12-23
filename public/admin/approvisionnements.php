@@ -8,36 +8,34 @@ if (!isset($_SESSION["type"]) || $_SESSION["type"] !== "admin") {
     exit;
 }
 
-// Action par défaut
-$action = $_GET["action"] ?? "supprimer";
-$id = $_GET["id"] ?? null;
+$action = $_GET["action"] ?? null;
 
 /* =======================
    SUPPRESSION
 ======================= */
-if ($action === "delete" && $id) {
-    Approvisionnement::delete($pdo, $id);
+if ($action === "delete" && isset($_GET["id"])) {
+    Approvisionnement::delete($pdo, $_GET["id"]);
     header("Location: approvisionnements.php");
     exit;
 }
 
-if (isset($_GET["action"]) && $_GET["action"] === "valider") {
-
-    $commande_id = $_GET["commande_id"];
-    $produit_id  = $_GET["produit_id"];
-    $quantite    = $_GET["quantite"];
+/* =======================
+   VALIDATION
+======================= */
+if ($action === "valider") {
 
     Approvisionnement::validerCommande(
         $pdo,
-        $commande_id,
-        $produit_id,
-        $quantite
+        $_GET["commande_id"],
+        $_GET["produit_id"],
+        $_GET["quantite"]
     );
 
     header("Location: approvisionnements.php");
     exit;
 }
 
+// Liste des commandes
 $commandes = Approvisionnement::getAllCommandes($pdo);
 ?>
 
@@ -50,14 +48,6 @@ $commandes = Approvisionnement::getAllCommandes($pdo);
 <body>
 
 <h1>Gestion des commandes</h1>
-
-<!-- =======================
-     LISTE
-======================= -->
-<?php if ($action === "list"): 
-$commandes = Approvisionnement::getAll($pdo);
-endif; ?>
-
 
 <table border="1" cellpadding="5">
 <tr>
@@ -79,21 +69,33 @@ endif; ?>
     <td><?= $c["quantite"] ?></td>
     <td><?= $c["statut"] ?></td>
     <td>
+
         <?php if ($c["statut"] === "en attente"): ?>
-      <a href="approvisionnements.php?action=valider
-        &commande_id=<?= $c['id'] ?>
-        &produit_id=<?= $c['produit_id'] ?>
-        &quantite=<?= $c['quantite'] ?>"
-        onclick="return confirm('Valider cette commande ?')">
-        ✅ Valider
-      </a>
-      <a href="approvisionnements.php?action=delete&id=<?= $c["id"] ?>"
-           onclick="return confirm('Supprimer cette commande ?')">🗑️</a>  
+
+            <a href="approvisionnements.php?action=valider&commande_id=<?= $c['id'] ?>&produit_id=<?= $c['produit_id'] ?>&quantite=<?= $c['quantite'] ?>"
+               onclick="return confirm('Valider cette commande ?')">
+                ✅ Valider
+            </a>
+
+            |
+            <a href="approvisionnements.php?action=delete&id=<?= $c['id'] ?>"
+               onclick="return confirm('Supprimer cette commande ?')">
+                🗑️ Supprimer
+            </a>
+
         <?php else: ?>
-            ✔️
+
+            ✔️ Validée |
+            <a href="approvisionnements.php?action=delete&id=<?= $c['id'] ?>"
+               onclick="return confirm('Supprimer cette commande ?')">
+                🗑️ Supprimer
+            </a>
+
         <?php endif; ?>
+
     </td>
 </tr>
+
 <?php endforeach; ?>
 </table>
 

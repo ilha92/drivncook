@@ -18,7 +18,6 @@ class Approvisionnement
         return $pdo->query($sql)->fetchAll();
     }
 
-     // Suppression par l'admin
     public static function delete($pdo, $id)
     {
         $stmt = $pdo->prepare("DELETE FROM commandes WHERE id = ?");
@@ -27,20 +26,19 @@ class Approvisionnement
 
     public static function validerCommande($pdo, $commande_id, $produit_id, $quantite)
     {
-        // Diminuer le stock
+        // 1️⃣ Diminuer le stock
         $stmt = $pdo->prepare(
             "UPDATE produits 
-            SET stock = stock - ? 
-            WHERE id = ? AND stock >= ?"
+             SET stock = stock - ? 
+             WHERE id = ? AND stock >= ?"
         );
         $stmt->execute([$quantite, $produit_id, $quantite]);
 
-        // Vérifier stock suffisant
         if ($stmt->rowCount() === 0) {
-            return false;
+            return false; // stock insuffisant
         }
 
-        // Mettre à jour le statut
+        // 2️⃣ Mettre à jour le statut
         $stmt = $pdo->prepare(
             "UPDATE commandes SET statut = 'validée' WHERE id = ?"
         );
