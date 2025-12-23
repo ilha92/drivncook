@@ -1,32 +1,27 @@
 <?php
 session_start();
 require_once "../../config/database.php";
+require_once "../../src/models/Vente.php";
 
-// Sécurité
 if (!isset($_SESSION["type"]) || $_SESSION["type"] !== "franchise") {
     header("Location: ../login.php");
     exit;
 }
 
-$franchise_id = $_SESSION["franchise_id"];
-
-// Récupérer les ventes
-$sql = "
-SELECT date_vente, montant
-FROM ventes
-WHERE franchise_id = ?
-ORDER BY date_vente DESC
-";
-
-$stmt = $pdo->prepare($sql);
-$stmt->execute([$franchise_id]);
-$ventes = $stmt->fetchAll();
-
-// Calcul du total
-$total = 0;
-foreach ($ventes as $vente) {
-    $total += $vente["montant"];
+// Ajout d'une vente
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    Vente::add(
+        $pdo,
+        $_SESSION["franchise_id"],
+        $_POST["date_vente"],
+        $_POST["montant"]
+    );
+    header("Location: ventes.php");
+    exit;
 }
+
+// Historique des ventes
+$ventes = Vente::getByFranchise($pdo, $_SESSION["franchise_id"]);
 ?>
 
 <!DOCTYPE html>
@@ -39,30 +34,38 @@ foreach ($ventes as $vente) {
 
 <h1>Mes ventes</h1>
 
-<p><strong>Total des ventes :</strong> <?= $total ?> €</p>
+<!-- AJOUT VENTE -->
+<h2>Ajouter une vente</h2>
+<form method="POST">
+    <label>Date de la vente :</label><br>
+    <input type="date" name="date_vente" required><br><br>
 
-<?php if (count($ventes) == 0): ?>
-    <p>Aucune vente enregistrée.</p>
-<?php else: ?>
+    <label>Montant (€) :</label><br>
+    <input type="number" step="0.01" name="montant" required><br><br>
+
+    <button>Ajouter</button>
+</form>
+
+<hr>
+
+<!-- HISTORIQUE -->
+<h2>Historique des ventes</h2>
 
 <table border="1" cellpadding="5">
-    <tr>
-        <th>Date</th>
-        <th>Montant (€)</th>
-    </tr>
+<tr>
+    <th>Date</th>
+    <th>Montant (€)</th>
+</tr>
 
-    <?php foreach ($ventes as $vente): ?>
-        <tr>
-            <td><?= $vente["date_vente"] ?></td>
-            <td><?= $vente["montant"] ?></td>
-        </tr>
-    <?php endforeach; ?>
+<?php foreach ($ventes as $v): ?>
+<tr>
+    <td><?= $v["date_vente"] ?></td>
+    <td><?= number_format($v["montant"], 2, ',', ' ') ?> €</td>
+</tr>
+<?php endforeach; ?>
 </table>
 
-<?php endif; ?>
-
-<br>
-<a href="dashboard.php">⬅ Retour au dashboard</a>
+<a href="dashboard.php">⬅ Retour dashboard</a>
 
 </body>
 </html>

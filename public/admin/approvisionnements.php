@@ -4,7 +4,7 @@ require_once "../../config/database.php";
 require_once "../../src/models/Approvisionnement.php";
 
 if (!isset($_SESSION["type"]) || $_SESSION["type"] !== "admin") {
-    header("Location: ../login.php");
+    header("Location: ../../access/login.php");
     exit;
 }
 
