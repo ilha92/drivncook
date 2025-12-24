@@ -87,8 +87,8 @@ $camions = Camion::getAll($pdo);
     <td><?= htmlspecialchars($c["immatriculation"]) ?></td>
     <td><?= htmlspecialchars($c["modele"]) ?></td>
     <td><?= htmlspecialchars($c["statut"]) ?></td>
-    <td><?= htmlspecialchars($c["type_panne"] ?? "N/A") ?></td>
-    <td><?= htmlspecialchars($c["panne_description"] ?? "N/A") ?></td>
+    <td><?= htmlspecialchars($c["type_panne"] ?? "Aucune") ?></td>
+    <td><?= htmlspecialchars($c["panne_description"] ?? "Aucune") ?></td>
     <td><?= $c["franchise_nom"] ?? "Non attribué" ?></td>
     <td>
         <a href="?action=edit&id=<?= $c["id"] ?>">✏️</a>
