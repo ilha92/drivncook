@@ -3,6 +3,7 @@ session_start();
 require_once "../../config/database.php";
 require_once "../../src/models/Vente.php";
 
+
 if (!isset($_SESSION["type"]) || $_SESSION["type"] !== "admin") {
     header("Location: ../login.php");
     exit;
@@ -76,6 +77,7 @@ foreach ($ventes as $v) {
 </tr>
 <?php endforeach; ?>
 </table>
+<a href="../../pdf/ventes_pdf.php" target="_blank">📄 Générer PDF des ventes</a>
 
 <br>
 <a href="dashboard.php">⬅ Retour admin</a>

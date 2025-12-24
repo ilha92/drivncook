@@ -64,7 +64,8 @@ $ventes = Vente::getByFranchise($pdo, $_SESSION["franchise_id"]);
 </tr>
 <?php endforeach; ?>
 </table>
-
+<a href="../../pdf/ventes_pdf.php" target="_blank">📄 Générer PDF des ventes</a>
+<br><br>
 <a href="dashboard.php">⬅ Retour dashboard</a>
 
 </body>
