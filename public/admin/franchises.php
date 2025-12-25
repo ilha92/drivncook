@@ -98,6 +98,8 @@ $franchises = Franchise::getAll($pdo);
 <?php endforeach; ?>
 </table>
 <br><br> 
+<a href="../../pdf/franchises_pdf.php" target="_blank">📄 Générer PDF des franchises</a>
+<br><br>
 <a href="dashboard.php">Dashboard</a>
 <?php endif; ?>
 
@@ -178,7 +180,6 @@ $redevance = $totalCA * 0.04;
 
 <p><b>Chiffre d'affaires total :</b> <?= $totalCA ?> €</p>
 <p><b>4 % à reverser :</b> <?= $redevance ?> €</p>
-
 <a href="franchises.php">⬅ Retour</a>
 
 <?php endif; ?>

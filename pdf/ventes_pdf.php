@@ -7,6 +7,7 @@ use Dompdf\Dompdf;
 
 // Récupération des ventes
 $ventes = Vente::getAll($pdo);
+$totalCA = Vente::getCATotal($pdo);
 
 // HTML du PDF
 $html = '
@@ -32,8 +33,8 @@ foreach ($ventes as $v) {
 
 $html .= "
 <tr>
-    <td colspan='2'><strong>Total</strong></td>
-    <td><strong>$total €</strong></td>
+    <td colspan='2'><strong>Total du chiffre d'affaires</strong></td>
+    <td><strong>{$totalCA} €</strong></td>
 </tr>
 </table>
 ";
