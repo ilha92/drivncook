@@ -33,7 +33,33 @@ $values = array_values($caParFranchise);
     <meta charset="UTF-8">
     <title>Admin - Ventes</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 </head>
+<script>
+function exportPDF() {
+    const { jsPDF } = window.jspdf;
+
+    html2canvas(document.getElementById("chartCA")).then(canvas => {
+        const imgData = canvas.toDataURL("image/png");
+
+        const pdf = new jsPDF("p", "mm", "a4");
+        const pageWidth = pdf.internal.pageSize.getWidth();
+
+        const imgWidth = pageWidth - 20;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+        pdf.setFontSize(16);
+        pdf.text("Rapport des ventes - Driv'n Cook", 10, 15);
+
+        pdf.addImage(imgData, "PNG", 10, 25, imgWidth, imgHeight);
+        pdf.save("rapport_ventes.pdf");
+    });
+}
+</script>
+
 <body>
 
 <h1>Analyse des ventes</h1>
@@ -81,33 +107,55 @@ $values = array_values($caParFranchise);
 </tr>
 <?php endforeach; ?>
 </table>
-<canvas id="chartCA" width="400" height="400"></canvas>
+<div style="width: 400px; height: 300px; margin: 0 auto;">
+    <canvas id="chartCA"></canvas>
+</div>
 <script>
-const labels = <?= json_encode($labels) ?>;
-const data = <?= json_encode($values) ?>;
+const data = {
+    labels: <?= json_encode(array_keys($caParFranchise)) ?>,
+    datasets: [{
+        label: 'Chiffre d\'affaires',
+        data: <?= json_encode(array_values($caParFranchise)) ?>,
+        backgroundColor: [
+            '#4CAF50',
+            '#2196F3',
+            '#FFC107',
+            '#E91E63',
+            '#9C27B0'
+        ]
+    }]
+};
+
+const total = data.datasets[0].data.reduce((a, b) => a + b, 0);
 
 new Chart(document.getElementById('chartCA'), {
     type: 'pie',
-    data: {
-        labels: labels,
-        datasets: [{
-            label: 'Chiffre d\'affaires',
-            data: data,
-            backgroundColor: [
-                '#3498db',
-                '#e74c3c',
-                '#2ecc71',
-                '#f1c40f',
-                '#9b59b6',
-                '#1abc9c'
-            ]
-        }]
-    },
+    data: data,
+    plugins: [ChartDataLabels],
     options: {
-        responsive: true
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom'
+            },
+            datalabels: {
+                color: '#fff',
+                font: {
+                    weight: 'bold',
+                    size: 14
+                },
+                formatter: (value, ctx) => {
+                    let percent = (value / total * 100).toFixed(1);
+                    return percent + " %";
+                }
+            }
+        }
     }
 });
 </script>
+
+<button onclick="exportPDF()">📄 Exporter le graphique en PDF</button>
+
 <a href="../../pdf/ventes_pdf.php" target="_blank">📄 Générer PDF des ventes</a>
 <br>
 <a href="dashboard.php">⬅ Retour admin</a>
