@@ -13,15 +13,23 @@ $action = $_GET["action"] ?? "list";
 /* =======================
    PASSER COMMANDE
 ======================= */
+$message = "";
+
 if ($action === "add" && $_SERVER["REQUEST_METHOD"] === "POST") {
-    Commande::create(
+
+    $result = Commande::create(
         $pdo,
         $_SESSION["franchise_id"],
         $_POST["produit_id"],
         $_POST["quantite"]
     );
-    header("Location: commandes.php");
-    exit;
+
+    if ($result === true) {
+        header("Location: commandes.php?success=1");
+        exit;
+    } else {
+        $message = $result; // ex: "Stock insuffisant"
+    }
 }
 
 $produits = Commande::getProduits($pdo);
@@ -52,6 +60,12 @@ $commandes = Commande::getByFranchise($pdo, $_SESSION["franchise_id"]);
 
     <label>Quantité</label><br>
     <input type="number" name="quantite" min="1" required><br><br>
+
+    <?php if (!empty($message)): ?>
+    <p style="color:red; font-weight:bold;">
+        <?= htmlspecialchars($message) ?>
+    </p>
+<?php endif; ?>
 
     <button>Commander</button>
 </form>
