@@ -22,6 +22,9 @@ foreach ($ventes as $v) {
     }
     $caParFranchise[$nom] += $v["montant"];
 }
+// Préparation des données pour JS
+$labels = array_keys($caParFranchise);
+$values = array_values($caParFranchise);
 ?>
 
 <!DOCTYPE html>
@@ -29,6 +32,7 @@ foreach ($ventes as $v) {
 <head>
     <meta charset="UTF-8">
     <title>Admin - Ventes</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -77,8 +81,34 @@ foreach ($ventes as $v) {
 </tr>
 <?php endforeach; ?>
 </table>
-<a href="../../pdf/ventes_pdf.php" target="_blank">📄 Générer PDF des ventes</a>
+<canvas id="chartCA" width="400" height="400"></canvas>
+<script>
+const labels = <?= json_encode($labels) ?>;
+const data = <?= json_encode($values) ?>;
 
+new Chart(document.getElementById('chartCA'), {
+    type: 'pie',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Chiffre d\'affaires',
+            data: data,
+            backgroundColor: [
+                '#3498db',
+                '#e74c3c',
+                '#2ecc71',
+                '#f1c40f',
+                '#9b59b6',
+                '#1abc9c'
+            ]
+        }]
+    },
+    options: {
+        responsive: true
+    }
+});
+</script>
+<a href="../../pdf/ventes_pdf.php" target="_blank">📄 Générer PDF des ventes</a>
 <br>
 <a href="dashboard.php">⬅ Retour admin</a>
 
