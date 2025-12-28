@@ -1,13 +1,17 @@
 <?php
 session_start();
-if ($_SESSION["type"] === "franchise" && $_SESSION["droit_entree"] !== "accepte") {
-    header("Location: droit_entree.php");
-    exit;
-}
+// Sécurité : uniquement franchisé
 if (!isset($_SESSION["type"]) || $_SESSION["type"] !== "franchise") {
     header("Location: ../login.php");
     exit;
 }
+
+// Vérification droit d'entrée
+if ($_SESSION["droit_entree"] !== "accepte") {
+    header("Location: droit_entree.php");
+    exit;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -30,6 +34,8 @@ if (!isset($_SESSION["type"]) || $_SESSION["type"] !== "franchise") {
     <li><a href="entretien.php?id=1">Carnet d'entretien (exemple camion ID 1)</a></li>
 </ul>
 
+<a href="../index.php">Retour à l'accueil </a>
+<br>
 <a href="../../access/logout.php">Se déconnecter</a>
 
 </body>

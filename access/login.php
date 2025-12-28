@@ -41,6 +41,7 @@ if ($franchise && password_verify($password, $franchise["mot_de_passe"])) {
     $_SESSION["type"] = "franchise";
     $_SESSION["email"] = $franchise["email"];
     $_SESSION["franchise_id"] = $franchise["id"];
+    $_SESSION["droit_entree"] = $franchise["droit_entree"];
 
     header("Location: ../public/index.php");
     exit;
