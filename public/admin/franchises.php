@@ -47,6 +47,7 @@ if ($action === "edit" && $id && $_SERVER["REQUEST_METHOD"] === "POST") {
         $pdo,
         $_POST["nom"],
         $_POST["email"],
+        $_POST["droit_entree"],
         $_POST["ville"],
         $_POST["telephone"],
         $id
@@ -79,8 +80,8 @@ $franchises = Franchise::getAll($pdo);
 <tr>
     <th>Nom</th>
     <th>Email</th>
-    <th>Ville</th>
     <th>Droit d'entrée</th>
+    <th>Ville</th>
     <th>Actions</th>
 </tr>
 
@@ -88,10 +89,8 @@ $franchises = Franchise::getAll($pdo);
 <tr>
     <td><?= htmlspecialchars($f["nom"]) ?></td>
     <td><?= htmlspecialchars($f["email"]) ?></td>
+    <td><?= htmlspecialchars($f["droit_entree"] === 'accepte' ? 'Payé' : 'Non payé') ?></td>
     <td><?= htmlspecialchars($f["ville"]) ?></td>
-    <td>
-    <?= $f["droit_entree"] === 'accepte' ? '✅ Payé' : '❌ Non payé' ?>
-    </td>
     <td>
         <a href="?action=detail&id=<?= $f["id"] ?>">🔍</a>
         <a href="?action=edit&id=<?= $f["id"] ?>">✏️</a>
@@ -141,6 +140,11 @@ $franchise = Franchise::getById($pdo, $id);
 <form method="POST">
     <input name="nom" value="<?= htmlspecialchars($franchise["nom"]) ?>"><br><br>
     <input name="email" value="<?= htmlspecialchars($franchise["email"]) ?>"><br><br>
+    <label>Droit d'entrée :</label><br>
+    <select name="droit_entree">
+        <option value="refuse" <?= $franchise["droit_entree"] === 'refuse' ? 'selected' : '' ?>>Non payé</option>
+        <option value="accepte" <?= $franchise["droit_entree"] === 'accepte' ? 'selected' : '' ?>>Payé</option>
+    </select><br><br>
     <input name="ville" value="<?= htmlspecialchars($franchise["ville"]) ?>"><br><br>
     <input name="telephone" value="<?= htmlspecialchars($franchise["telephone"]) ?>"><br><br>
     <button>Enregistrer</button>

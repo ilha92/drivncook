@@ -32,13 +32,13 @@ class Franchise
     }
 
     // Modification complète par l'admin
-    public static function updateByAdmin($pdo, $nom, $email, $ville, $telephone, $id)
+    public static function updateByAdmin($pdo, $nom, $email, $droit_entree, $ville, $telephone, $id)
     {
         $sql = "UPDATE franchises
-                SET nom = ?, email = ?, ville = ?, telephone = ?
+                SET nom = ?, email = ?, droit_entree = ?, ville = ?, telephone = ?
                 WHERE id = ?";
         $stmt = $pdo->prepare($sql);
-        return $stmt->execute([$nom, $email, $ville, $telephone, $id]);
+        return $stmt->execute([$nom, $email, $droit_entree, $ville, $telephone, $id]);
     }
 
     // Suppression par l'admin
