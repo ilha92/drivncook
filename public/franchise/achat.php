@@ -1,5 +1,12 @@
 <?php
 session_start();
+// Vérification droit d'entrée
+if ($_SESSION["type"] === "franchise" && $_SESSION["droit_entree"] !== "accepte") {
+    header("Location: droit_entree.php");
+    exit;
+}
+
+
 require_once "../../config/database.php";
 
 // Sécurité : uniquement franchisé

@@ -49,6 +49,7 @@ $franchises = Franchise::getAll($pdo);
 ?>
 <p><strong>Nom :</strong> <?= $franchise["nom"] ?></p>
 <p><strong>Email :</strong> <?= $franchise["email"] ?></p>
+<p><strong>Droit d'entrée :</strong> <?= $franchise["droit_entree"] === 'accepte' ? ' Payé' : 'Non payé' ?></p>
 <p><strong>Ville :</strong> <?= $franchise["ville"] ?></p>
 <p><strong>Téléphone :</strong> <?= $franchise["telephone"] ?></p>
 

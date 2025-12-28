@@ -80,6 +80,7 @@ $franchises = Franchise::getAll($pdo);
     <th>Nom</th>
     <th>Email</th>
     <th>Ville</th>
+    <th>Droit d'entrée</th>
     <th>Actions</th>
 </tr>
 
@@ -88,6 +89,9 @@ $franchises = Franchise::getAll($pdo);
     <td><?= htmlspecialchars($f["nom"]) ?></td>
     <td><?= htmlspecialchars($f["email"]) ?></td>
     <td><?= htmlspecialchars($f["ville"]) ?></td>
+    <td>
+    <?= $f["droit_entree"] === 'accepte' ? '✅ Payé' : '❌ Non payé' ?>
+    </td>
     <td>
         <a href="?action=detail&id=<?= $f["id"] ?>">🔍</a>
         <a href="?action=edit&id=<?= $f["id"] ?>">✏️</a>
@@ -165,6 +169,7 @@ $redevance = $totalCA * 0.04;
 <p><b>Nom :</b> <?= htmlspecialchars($franchise["nom"]) ?></p>
 <p><b>Email :</b> <?= htmlspecialchars($franchise["email"]) ?></p>
 <p><b>Date d'entrée :</b> <?= $franchise["date_entree"] ?></p>
+<p><b>Droit d'entrée :</b> <?= $franchise["droit_entree"] === 'accepte' ? 'Payé' : 'Non payé' ?></p>
 
 <h3>Historique des ventes</h3>
 

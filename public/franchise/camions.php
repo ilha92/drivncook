@@ -3,6 +3,13 @@ session_start();
 require_once "../../config/database.php";
 require_once "../../src/models/Camion.php";
 
+// Vérification droit d'entrée
+if ($_SESSION["type"] === "franchise" && $_SESSION["droit_entree"] !== "accepte") {
+    header("Location: droit_entree.php");
+    exit;
+}
+
+
 if (!isset($_SESSION["type"]) || $_SESSION["type"] !== "franchise") {
     header("Location: ../login.php");
     exit;
