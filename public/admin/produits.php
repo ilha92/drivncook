@@ -19,6 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     Produit::create(
         $pdo,
         $_POST["nom"],
+        $_POST["prix"],
         $_POST["stock"],
         $_POST["entrepot_id"]
     );
@@ -30,6 +31,7 @@ if ($action === "edit" && $id && $_SERVER["REQUEST_METHOD"] === "POST") {
     Produit::updateByAdmin(
         $pdo,
         $_POST["nom"],
+        $_POST["prix"],
         $_POST["stock"],
         $_POST["entrepot_id"],
         $id
@@ -64,9 +66,13 @@ $entrepots = Produit::getEntrepots($pdo);
 <h2>Ajouter un produit</h2>
 
 <form method="POST">
+    <label>Nom du produit</label><br>
     <input name="nom" placeholder="Nom du produit" required><br><br>
+    <label>Prix (€)</label><br>
+    <input type="number" name="prix" step="0.01" required><br><br>
+    <label>Stock</label><br>
     <input type="number" name="stock" placeholder="Stock" min="0" required><br><br>
-
+    <label>Entrepôt</label><br>
     <select name="entrepot_id" required>
         <?php foreach ($entrepots as $e): ?>
             <option value="<?= $e["id"] ?>"><?= $e["nom"] ?></option>
@@ -90,6 +96,7 @@ endif; ?>
 <table border="1" cellpadding="5">
 <tr>
     <th>Produit</th>
+    <th>Prix (€)</th>
     <th>Stock</th>
     <th>Entrepôt</th>
     <th>Action</th>
@@ -98,6 +105,7 @@ endif; ?>
 <?php foreach ($produits as $p): ?>
 <tr>
     <td><?= $p["nom"] ?></td>
+    <td><?= number_format($p["prix"], 2) ?></td>
     <td><?= $p["stock"] ?></td>
     <td><?= $p["entrepot"] ?></td>
     <td><a href="?action=edit&id=<?= $p["id"] ?>">✏️</a> 
@@ -115,8 +123,13 @@ $produits = Produit::getById($pdo, $id);
 <h2>Modifier le produit</h2>
 
 <form method="POST">
+    <label>Nom du produit</label><br>
     <input name="nom" value="<?= htmlspecialchars($produits["nom"]) ?>"><br><br>
+    <label>Prix (€)</label><br>
+    <input name="prix" value="<?= htmlspecialchars($produits["prix"]) ?>"><br><br>
+    <label>Stock</label><br>
     <input name="stock" value="<?= htmlspecialchars($produits["stock"]) ?>"><br><br>
+    <label>Entrepôt</label><br>
     <input name="entrepot_id" value="<?= htmlspecialchars($produits["entrepot_id"]) ?>"><br><br>
     <button>Enregistrer</button>
 </form>

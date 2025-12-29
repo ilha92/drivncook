@@ -27,23 +27,23 @@ class Produit
     }
 
     // Créer un produit
-    public static function create($pdo, $nom, $stock, $entrepot_id)
+    public static function create($pdo, $nom, $prix, $stock, $entrepot_id)
     {
         $stmt = $pdo->prepare(
-            "INSERT INTO produits (nom, stock, entrepot_id)
-             VALUES (?, ?, ?)"
+            "INSERT INTO produits (nom, prix, stock, entrepot_id)
+             VALUES (?, ?, ?, ?)"
         );
-        return $stmt->execute([$nom, $stock, $entrepot_id]);
+        return $stmt->execute([$nom, $prix, $stock, $entrepot_id]);
     }
 
     // Modification complète par l'admin
-    public static function updateByAdmin($pdo, $nom, $stock, $entrepot_id, $id)
+    public static function updateByAdmin($pdo, $nom, $prix, $stock, $entrepot_id, $id)
     {
         $sql = "UPDATE produits
-                SET nom = ?, stock = ?, entrepot_id = ?
+                SET nom = ?, prix = ?, stock = ?, entrepot_id = ?
                 WHERE id = ?";
         $stmt = $pdo->prepare($sql);
-        return $stmt->execute([$nom, $stock, $entrepot_id, $id]);
+        return $stmt->execute([$nom, $prix, $stock, $entrepot_id, $id]);
     }
 
     // Suppression par l'admin

@@ -48,6 +48,7 @@ $commandes = Commande::getByFranchise($pdo, $_SESSION["franchise_id"]);
 <head>
     <meta charset="UTF-8">
     <title>Mes commandes</title>
+    <script src="../../assets/js/produits.js" defer></script>
 </head>
 <body>
 
@@ -57,13 +58,15 @@ $commandes = Commande::getByFranchise($pdo, $_SESSION["franchise_id"]);
 
 <form method="POST" action="?action=add">
     <label>Produit</label><br>
-    <select name="produit_id" required>
+    <select name="produit_id" id="produit_id" required>
         <?php foreach ($produits as $p): ?>
-            <option value="<?= $p["id"] ?>">
-                <?= $p["nom"] ?> (stock : <?= $p["stock"] ?>)
+            <option value="<?= $p["id"] ?>" data-prix="<?= $p["prix"] ?>">
+            <?= $p["nom"] ?> (<?= $p['prix'] ?> €) (Stock: <?= $p["stock"] ?>)
             </option>
         <?php endforeach; ?>
-    </select><br><br>
+    </select>
+
+    <br><br>
 
     <label>Quantité</label><br>
     <input type="number" name="quantite" min="1" required><br><br>
@@ -91,6 +94,7 @@ $commandes = Commande::getByFranchise($pdo, $_SESSION["franchise_id"]);
 <tr>
     <th>Date</th>
     <th>Produit</th>
+    <th>Prix (€)</th>
     <th>Quantité</th>
     <th>Statut</th>
 </tr>
@@ -99,6 +103,7 @@ $commandes = Commande::getByFranchise($pdo, $_SESSION["franchise_id"]);
 <tr>
     <td><?= $c["date_commande"] ?></td>
     <td><?= $c["produit"] ?></td>
+    <td><?= number_format($c["prix"] * $c["quantite"], 2, ',', ' ') ?> €</td>
     <td><?= $c["quantite"] ?></td>
     <td><?= $c["statut"] ?></td>
 </tr>

@@ -11,7 +11,17 @@ class Commande
     // Passer une commande (avec contrôle du stock)
     public static function create($pdo, $franchise_id, $produit_id, $quantite)
     {
-        // 1 Vérifier le stock disponible
+        // récupérer le prix réel
+        $stmt = $pdo->prepare("SELECT prix, stock FROM produits WHERE id = ?");
+        $stmt->execute([$produit_id]);
+        $produit = $stmt->fetch();
+
+        if (!$produit || $quantite > $produit['stock']) {
+            return "Stock insuffisant";
+        }
+
+        $total = $produit['prix'] * $quantite;
+        /* 1 Vérifier le stock disponible
         $stmt = $pdo->prepare("SELECT stock FROM produits WHERE id = ?");
         $stmt->execute([$produit_id]);
         $produit = $stmt->fetch();
@@ -19,7 +29,7 @@ class Commande
         if ($quantite > $produit["stock"]) {
             return "Stock insuffisant";
         }
-
+        */
         // 2 Enregistrer la commande
         $stmt = $pdo->prepare("
             INSERT INTO commandes (franchise_id, produit_id, quantite)
@@ -42,7 +52,10 @@ class Commande
     public static function getByFranchise($pdo, $franchise_id)
     {
         $stmt = $pdo->prepare("
-            SELECT commandes.*, produits.nom AS produit
+            SELECT 
+                commandes.*,
+                produits.nom AS produit,
+                produits.prix AS prix
             FROM commandes
             JOIN produits ON commandes.produit_id = produits.id
             WHERE commandes.franchise_id = ?
