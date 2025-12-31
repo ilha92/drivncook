@@ -48,26 +48,22 @@ $commandes = Commande::getByFranchise($pdo, $_SESSION["franchise_id"]);
 <head>
     <meta charset="UTF-8">
     <title>Mes commandes</title>
-    <script src="../../assets/js/produits.js" defer></script>
 </head>
 <body>
-
 <h1>Mes commandes</h1>
 
 <h2>Passer une commande</h2>
 
 <form method="POST" action="?action=add">
     <label>Produit</label><br>
-    <select name="produit_id" id="produit_id" required>
+    <select name="produit_id" id="produit" required>
         <?php foreach ($produits as $p): ?>
             <option value="<?= $p["id"] ?>" data-prix="<?= $p["prix"] ?>">
             <?= $p["nom"] ?> (<?= $p['prix'] ?> €) (Stock: <?= $p["stock"] ?>)
             </option>
         <?php endforeach; ?>
     </select>
-
     <br><br>
-
     <label>Quantité</label><br>
     <input type="number" name="quantite" min="1" required><br><br>
 
