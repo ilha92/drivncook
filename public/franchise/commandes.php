@@ -45,63 +45,99 @@ $commandes = Commande::getByFranchise($pdo, $_SESSION["franchise_id"]);
 <html>
 <head>
     <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Mes commandes</title>
 </head>
-<body>
-<h1>Mes commandes</h1>
+<body class="bg-light">
 
-<h2>Passer une commande</h2>
+<div class="container py-5">
 
-<form method="POST" action="?action=add">
-    <label>Produit</label><br>
-    <select name="produit_id" id="produit" required>
-        <?php foreach ($produits as $p): ?>
-            <option value="<?= $p["id"] ?>" data-prix="<?= $p["prix"] ?>">
-            <?= $p["nom"] ?> (<?= $p['prix'] ?> €) (Stock: <?= $p["stock"] ?>)
-            </option>
-        <?php endforeach; ?>
-    </select>
-    <br><br>
-    <label>Quantité</label><br>
-    <input type="number" name="quantite" min="1" required><br><br>
+    <div class="card shadow-sm mx-auto" style="max-width: 900px;">
+        <div class="card-body">
 
-    <?php if (!empty($message)): ?>
-    <p style="color:red; font-weight:bold;">
-        <?= htmlspecialchars($message) ?>
-    </p>
-<?php endif; ?>
+            <h2 class="text-center mb-4">Passer une commande</h2>
 
-    <button>Commander</button>
-</form>
+            <!-- FORMULAIRE -->
+            <form method="POST" action="?action=add">
 
-<hr>
-<h2>Historique de mes commandes</h2>
+                <div class="mb-3">
+                    <label class="form-label">Produit</label>
+                    <select name="produit_id" class="form-select" required>
+                        <?php foreach ($produits as $p): ?>
+                            <option value="<?= $p["id"] ?>">
+                                <?= $p["nom"] ?> (<?= $p["prix"] ?> € | Stock : <?= $p["stock"] ?>)
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
 
-<?php if (count($commandes) === 0): ?>
-    <p>Aucune commande.</p>
-<?php else: ?>
-<table border="1" cellpadding="5">
-<tr>
-    <th>Date</th>
-    <th>Produit</th>
-    <th>Prix (€)</th>
-    <th>Quantité</th>
-    <th>Statut</th>
-</tr>
+                <div class="mb-3">
+                    <label class="form-label">Quantité</label>
+                    <input type="number" name="quantite" class="form-control" min="1" required>
+                </div>
 
-<?php foreach ($commandes as $c): ?>
-<tr>
-    <td><?= $c["date_commande"] ?></td>
-    <td><?= $c["produit"] ?></td>
-    <td><?= number_format($c["prix"] * $c["quantite"], 2, ',', ' ') ?> €</td>
-    <td><?= $c["quantite"] ?></td>
-    <td><?= $c["statut"] ?></td>
-</tr>
-<?php endforeach; ?>
-</table>
-<?php endif; ?>
+                <?php if (!empty($message)): ?>
+                    <div class="alert alert-danger text-center">
+                        <?= htmlspecialchars($message) ?>
+                    </div>
+                <?php endif; ?>
 
-<a href="dashboard.php">⬅ Retour dashboard</a>
+                <div class="d-grid">
+                    <button class="btn btn-primary btn-lg">Commander</button>
+                </div>
+            </form>
 
+        </div>
+    </div>
+
+    <!-- HISTORIQUE -->
+    <div class="card shadow-sm mt-5">
+        <div class="card-body">
+
+            <h3 class="mb-4 text-center">Historique de mes commandes</h3>
+
+            <?php if (count($commandes) === 0): ?>
+                <p class="text-center text-muted">Aucune commande.</p>
+            <?php else: ?>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover align-middle text-center">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Date</th>
+                                <th>Produit</th>
+                                <th>Prix total</th>
+                                <th>Quantité</th>
+                                <th>Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($commandes as $c): ?>
+                            <tr>
+                                <td><?= $c["date_commande"] ?></td>
+                                <td><?= $c["produit"] ?></td>
+                                <td><?= number_format($c["prix"] * $c["quantite"], 2, ',', ' ') ?> €</td>
+                                <td><?= $c["quantite"] ?></td>
+                                <td>
+                                    <span class="badge bg-success">
+                                        <?= ucfirst($c["statut"]) ?>
+                                    </span>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+
+            <?php endif; ?>
+
+            <div class="text-center mt-4">
+                <a href="dashboard.php" class="btn btn-secondary">← Retour dashboard</a>
+            </div>
+
+        </div>
+    </div>
+
+</div>
 </body>
 </html>
