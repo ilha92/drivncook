@@ -14,9 +14,7 @@ $id = $_GET["id"] ?? null;
 
 $franchise_id = $_SESSION["franchise_id"];
 
-/* =======================
-   MODIFICATION
-======================= */
+// Modification du profil
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $nom = $_POST["nom"] ?? null;
     $email = $_POST["email"];
@@ -56,9 +54,8 @@ $franchises = Franchise::getAll($pdo);
  <a href="?action=edit&id=<?= $franchise["id"] ?>">Modifier mes informations</a><br><br>
 <a href="dashboard.php">Retour</a>
 <?php endif; ?>
-<!-- =======================
-     MODIFICATION
-======================= -->
+
+<!-- j'ai mis un id dans le lien mais c'est pas utile car on edite que son propre profil -->
 <?php if ($action === "edit" && $id): 
 $franchise = Franchise::getById($pdo, $id);
 ?>

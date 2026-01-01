@@ -10,6 +10,7 @@ use Dompdf\Options;
 $sql = "
 SELECT 
     v.date_vente,
+    v.nom,
     v.montant,
     f.nom AS franchise
 FROM ventes v
@@ -37,9 +38,7 @@ foreach ($ventes as $v) {
 $partAdmin = $totalCA * 0.04;
 $partFranchises = $totalCA * 0.96;
 
-// ======================
 // HTML DU PDF
-// ======================
 $html = '
 <style>
 body { font-family: Arial, sans-serif; font-size: 12px; }
@@ -61,6 +60,7 @@ th, td { border:1px solid #333; padding:6px; text-align:center; }
 <table>
 <tr>
     <th>Date</th>
+    <th>Nom de la vente</th>
     <th>Franchise</th>
     <th>Montant (€)</th>
 </tr>';
@@ -69,6 +69,7 @@ foreach ($ventes as $v) {
     $html .= "
     <tr>
         <td>{$v['date_vente']}</td>
+        <td>{$v['nom']}</td>
         <td>{$v['franchise']}</td>
         <td>" . number_format($v['montant'], 2, ',', ' ') . "</td>
     </tr>";
@@ -76,9 +77,7 @@ foreach ($ventes as $v) {
 
 $html .= '</table>';
 
-// ======================
-// GÉNÉRATION PDF
-// ======================
+// GÉNÉRATION du PDF
 $options = new Options();
 $options->set('isRemoteEnabled', true);
 

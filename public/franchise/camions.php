@@ -9,7 +9,7 @@ if (!isset($_SESSION["type"]) || $_SESSION["type"] !== "franchise") {
     exit;
 }
 
-// Vérification droit d'entrée
+// Vérification droit d'entrée du franchisé
 if ($_SESSION["droit_entree"] !== "accepte") {
     header("Location: droit_entree.php");
     exit;

@@ -12,9 +12,7 @@ if (!isset($_SESSION["type"]) || $_SESSION["type"] !== "admin") {
 $action = $_GET["action"] ?? "list";
 $id = $_GET["id"] ?? null;
 
-/* =======================
-   AJOUT PRODUIT
-======================= */
+// Ajout d'un produit
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     Produit::create(
         $pdo,
@@ -60,9 +58,6 @@ $entrepots = Produit::getEntrepots($pdo);
 
 <h1>Gestion des produits</h1>
 
-<!-- =======================
-     AJOUT PRODUIT
-======================= -->
 <h2>Ajouter un produit</h2>
 
 <form method="POST">
@@ -84,9 +79,6 @@ $entrepots = Produit::getEntrepots($pdo);
 
 <hr>
 
-<!-- =======================
-     LISTE PRODUITS
-======================= -->
 <h2>Stocks disponibles</h2>
 
 <?php if ($action === "list"): 
@@ -113,9 +105,7 @@ endif; ?>
            onclick="return confirm('Supprimer ce produit ?')">🗑️</a></td>
 </tr>
 <?php endforeach; ?>
-<!-- =======================
-     MODIFICATION
-======================= -->
+
 <?php if ($action === "edit" && $id): 
 $produits = Produit::getById($pdo, $id);
 ?>

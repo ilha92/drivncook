@@ -31,7 +31,7 @@ if ($_SESSION["droit_entree"] !== "accepte") {
     <li><a href="ventes.php">Mes ventes</a></li>
     <li><a href="camions.php">Mes camions</a></li>
     <li><a href="commandes.php">Mes commandes</a></li>
-    <li><a href="entretien.php?id=1">Carnet d'entretien (exemple camion ID 1)</a></li>
+    <li><a href="entretien.php?id=1">Carnet d'entretien</a></li>
 </ul>
 
 <a href="../index.php">Retour à l'accueil </a>

@@ -12,18 +12,7 @@ if (!isset($_SESSION["type"]) || $_SESSION["type"] !== "admin") {
 $action = $_GET["action"] ?? "list";
 $id = $_GET["id"] ?? null;
 
-/* =======================
-   SUPPRESSION
-======================= */
-if ($action === "delete" && $id) {
-    Camion::delete($pdo, $id);
-    header("Location: camions.php");
-    exit;
-}
-
-/* =======================
-   AJOUT
-======================= */
+//ajout d'un camion
 if ($action === "add" && $_SERVER["REQUEST_METHOD"] === "POST") {
     Camion::create(
         $pdo,
@@ -36,9 +25,7 @@ if ($action === "add" && $_SERVER["REQUEST_METHOD"] === "POST") {
     exit;
 }
 
-/* =======================
-   MODIFICATION
-======================= */
+//modification d'un camion
 if ($action === "edit" && $id && $_SERVER["REQUEST_METHOD"] === "POST") {
     Camion::update(
         $pdo,
@@ -52,6 +39,12 @@ if ($action === "edit" && $id && $_SERVER["REQUEST_METHOD"] === "POST") {
     exit;
 }
 
+//suppression d'un camion
+if ($action === "delete" && $id) {
+    Camion::delete($pdo, $id);
+    header("Location: camions.php");
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -63,9 +56,6 @@ if ($action === "edit" && $id && $_SERVER["REQUEST_METHOD"] === "POST") {
 
 <h1>Gestion du parc de camions</h1>
 
-<!-- =======================
-     LISTE
-======================= -->
 <?php if ($action === "list"): 
 $camions = Camion::getAll($pdo);
 ?>
@@ -101,9 +91,6 @@ $camions = Camion::getAll($pdo);
 <a href="dashboard.php">Dashboard Admin</a>
 <?php endif; ?>
 
-<!-- =======================
-     AJOUT
-======================= -->
 <?php if ($action === "add"): 
 $franchises = Franchise::getAll($pdo);
 ?>
@@ -141,9 +128,7 @@ $franchises = Franchise::getAll($pdo);
 
 <?php endif; ?>
 
-<!-- =======================
-     MODIFICATION
-======================= -->
+<!-- /j'appelle la modification -->
 <?php if ($action === "edit" && $id): 
 $camion = Camion::getById($pdo, $id);
 $franchises = Franchise::getAll($pdo);

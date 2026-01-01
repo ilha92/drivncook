@@ -10,18 +10,14 @@ if (!isset($_SESSION["type"]) || $_SESSION["type"] !== "admin") {
 
 $action = $_GET["action"] ?? null;
 
-/* =======================
-   SUPPRESSION
-======================= */
+// Suppression d'une commande
 if ($action === "delete" && isset($_GET["id"])) {
     Approvisionnement::delete($pdo, $_GET["id"]);
     header("Location: approvisionnements.php");
     exit;
 }
 
-/* =======================
-   VALIDATION
-======================= */
+// Validation d'une commande d'un franchisé
 if ($action === "valider") {
 
     Approvisionnement::validerCommande(

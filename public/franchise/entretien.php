@@ -18,13 +18,16 @@ $camion_id = $_GET["id"];
 // Ajouter un entretien
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
+    $date_entretien = $_POST["date_entretien"];
+    $nom = $_POST["nom"];
     $description = $_POST["description"];
+    
 
-    $sql = "INSERT INTO entretiens (camion_id, description)
-            VALUES (?, ?)";
+    $sql = "INSERT INTO entretiens (camion_id, date_entretien, nom, description)
+            VALUES (?, ?, ?, ?)";
 
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$camion_id, $description]);
+    $stmt->execute([$camion_id, $date_entretien, $nom, $description]);
 }
 
 // Récupérer les entretiens
@@ -45,7 +48,11 @@ $entretiens = $stmt->fetchAll();
 <h1>Carnet d'entretien</h1>
 
 <form method="POST">
+    <label>Date de l'entretien :</label><br>
+    <input type="date" name="date_entretien" required><br><br>
     <label>Nouvel entretien</label><br>
+    <input type="text" name="nom" placeholder="Nom de l'entretien" required><br><br>
+     <label>Description :</label><br>
     <textarea name="description" required></textarea><br><br>
 
     <button type="submit">Ajouter</button>
@@ -61,7 +68,7 @@ $entretiens = $stmt->fetchAll();
     <ul>
         <?php foreach ($entretiens as $entretien): ?>
             <li>
-                <?= $entretien["date_entretien"] ?> – <?= $entretien["description"] ?>
+                <?= $entretien["date_entretien"] ?> – <?= $entretien["nom"] ?> – <?= $entretien["description"] ?>
             </li>
         <?php endforeach; ?>
     </ul>

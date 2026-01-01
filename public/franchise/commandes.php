@@ -9,7 +9,7 @@ if (!isset($_SESSION["type"]) || $_SESSION["type"] !== "franchise") {
     exit;
 }
 
-// Vérification droit d'entrée
+// Vérification droit d'entrée == accepte
 if ($_SESSION["droit_entree"] !== "accepte") {
     header("Location: droit_entree.php");
     exit;
@@ -17,9 +17,7 @@ if ($_SESSION["droit_entree"] !== "accepte") {
 
 $action = $_GET["action"] ?? "list";
 
-/* =======================
-   PASSER COMMANDE
-======================= */
+// Gestion des commandes
 $message = "";
 
 if ($action === "add" && $_SERVER["REQUEST_METHOD"] === "POST") {
@@ -77,10 +75,6 @@ $commandes = Commande::getByFranchise($pdo, $_SESSION["franchise_id"]);
 </form>
 
 <hr>
-
-<!-- =======================
-     HISTORIQUE
-======================= -->
 <h2>Historique de mes commandes</h2>
 
 <?php if (count($commandes) === 0): ?>

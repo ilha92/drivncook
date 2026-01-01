@@ -13,18 +13,7 @@ if (!isset($_SESSION["type"]) || $_SESSION["type"] !== "admin") {
 $action = $_GET["action"] ?? "list";
 $id = $_GET["id"] ?? null;
 
-/* =======================
-   SUPPRESSION
-======================= */
-if ($action === "delete" && $id) {
-    Franchise::delete($pdo, $id);
-    header("Location: franchises.php");
-    exit;
-}
-
-/* =======================
-   AJOUT
-======================= */
+// J'ajoute d'un franchisé
 if ($action === "add" && $_SERVER["REQUEST_METHOD"] === "POST") {
     Franchise::create(
         $pdo,
@@ -39,9 +28,7 @@ if ($action === "add" && $_SERVER["REQUEST_METHOD"] === "POST") {
     exit;
 }
 
-/* =======================
-   MODIFICATION
-======================= */
+// Modification d'un franchisé
 if ($action === "edit" && $id && $_SERVER["REQUEST_METHOD"] === "POST") {
     Franchise::updateByAdmin(
         $pdo,
@@ -55,6 +42,13 @@ if ($action === "edit" && $id && $_SERVER["REQUEST_METHOD"] === "POST") {
     header("Location: franchises.php");
     exit;
 }
+// suppression d'un franchisé
+if ($action === "delete" && $id) {
+    Franchise::delete($pdo, $id);
+    header("Location: franchises.php");
+    exit;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -67,9 +61,6 @@ if ($action === "edit" && $id && $_SERVER["REQUEST_METHOD"] === "POST") {
 
 <h1>Gestion des franchisés</h1>
 
-<!-- =======================
-     LISTE
-======================= -->
 <?php if ($action === "list"): 
 $franchises = Franchise::getAll($pdo);
 ?>
@@ -105,10 +96,6 @@ $franchises = Franchise::getAll($pdo);
 <br><br>
 <a href="dashboard.php">Dashboard</a>
 <?php endif; ?>
-
-<!-- =======================
-     AJOUT
-======================= -->
 <?php if ($action === "add"): ?>
 
 <h2>Ajouter un franchisé</h2>
@@ -127,10 +114,6 @@ $franchises = Franchise::getAll($pdo);
 <a href="franchises.php">⬅ Retour</a>
 
 <?php endif; ?>
-
-<!-- =======================
-     MODIFICATION
-======================= -->
 <?php if ($action === "edit" && $id): 
 $franchise = Franchise::getById($pdo, $id);
 ?>
@@ -154,9 +137,7 @@ $franchise = Franchise::getById($pdo, $id);
 
 <?php endif; ?>
 
-<!-- =======================
-     DETAIL / HISTORIQUE
-======================= -->
+<!-- Détail / Historique -->
 <?php if ($action === "detail" && $id): 
 $franchise = Franchise::getById($pdo, $id);
 $ventes = Franchise::getVentes($pdo, $id);

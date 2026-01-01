@@ -3,7 +3,7 @@
 class Camion
 {
     /* =========================
-       ADMIN
+      COTER  ADMIN
        ========================= */
 
    public static function getAll($pdo)
@@ -27,7 +27,7 @@ class Camion
 }
 
 
-    // 🔹 AJOUT : récupérer un camion par ID (admin)
+    // récupérer un camion par ID (admin)
     public static function getById($pdo, $id)
     {
         $stmt = $pdo->prepare("SELECT * FROM camions WHERE id = ?");
@@ -44,7 +44,7 @@ class Camion
         return $stmt->execute([$immatriculation, $modele, $statut, $franchise_id]);
     }
 
-    // 🔹 AJOUT : modifier un camion (admin)
+    // modifier un camion (admin)
     public static function update($pdo, $immatriculation, $modele, $statut, $franchise_id, $id)
     {
         $stmt = $pdo->prepare(
@@ -100,7 +100,7 @@ class Camion
 
 
     /* =========================
-       FRANCHISÉ
+        COTER FRANCHISÉ
        ========================= */
 
     public static function getByFranchise($pdo, $franchise_id)

@@ -7,13 +7,13 @@ class Vente
        ========================== */
 
     // Ajouter une vente (franchisé)
-    public static function add($pdo, $franchise_id, $date, $montant)
+    public static function add($pdo, $franchise_id, $date, $nom, $montant)
     {
         $stmt = $pdo->prepare(
-            "INSERT INTO ventes (franchise_id, date_vente, montant)
-             VALUES (?, ?, ?)"
+            "INSERT INTO ventes (franchise_id, date_vente, nom, montant)
+             VALUES (?, ?, ?, ?)"
         );
-        return $stmt->execute([$franchise_id, $date, $montant]);
+        return $stmt->execute([$franchise_id, $date, $nom, $montant]);
     }
 
     // Récupérer les ventes d’un franchisé
