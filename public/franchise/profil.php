@@ -37,46 +37,103 @@ $franchise = Franchise::getById($pdo, $franchise_id);
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Mon profil</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+
 <?php include "../../includes/navbar.php"; ?>
-<h1>Mon profil</h1>
-<?php if ($action === "list"): 
-$franchises = Franchise::getAll($pdo);
-?>
-<p><strong>Nom :</strong> <?= $franchise["nom"] ?></p>
-<p><strong>Email :</strong> <?= $franchise["email"] ?></p>
-<p><strong>Droit d'entrée :</strong> <?= $franchise["droit_entree"] === 'accepte' ? ' Payé' : 'Non payé' ?></p>
-<p><strong>Ville :</strong> <?= $franchise["ville"] ?></p>
-<p><strong>Téléphone :</strong> <?= $franchise["telephone"] ?></p>
 
- <a href="?action=edit&id=<?= $franchise["id"] ?>">Modifier mes informations</a><br><br>
-<a href="dashboard.php">Retour</a>
-<?php endif; ?>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <?php if ($action === "list"): ?>
+            <div class="card shadow">
+                <div class="card-header text-center fw-bold">
+                    👤 Mon profil
+                </div>
+                <div class="card-body">
+                    <p><strong>Nom :</strong> <?= htmlspecialchars($franchise["nom"]) ?></p>
+                    <p><strong>Email :</strong> <?= htmlspecialchars($franchise["email"]) ?></p>
+                    <p><strong>Ville :</strong> <?= htmlspecialchars($franchise["ville"]) ?></p>
+                    <p><strong>Téléphone :</strong> <?= htmlspecialchars($franchise["telephone"]) ?></p>
+                    <p>
+                        <strong>Droit d'entrée :</strong>
+                        <?php if ($franchise["droit_entree"] === "accepte"): ?>
+                            <span class="badge bg-success">Payé</span>
+                        <?php else: ?>
+                            <span class="badge bg-danger">Non payé</span>
+                        <?php endif; ?>
+                    </p>
 
-<!-- j'ai mis un id dans le lien mais c'est pas utile car on edite que son propre profil -->
-<?php if ($action === "edit" && $id): 
-$franchise = Franchise::getById($pdo, $id);
-?>
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="?action=edit" class="btn btn-primary">
+                             Modifier
+                        </a>
+                        <a href="dashboard.php" class="btn btn-secondary">
+                            Retour
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <?php endif; ?>
+            <!-- Modifier son Profil -->
+            <?php if ($action === "edit"): ?>
+            <div class="card shadow">
+                <div class="card-header text-center fw-bold">
+                     Modifier mon profil
+                </div>
+                <div class="card-body">
+                    <form method="POST">
 
-<h2>Modifier le franchisé</h2>
+                        <div class="mb-3">
+                            <label class="form-label">Nom</label>
+                            <input type="text" name="nom" class="form-control"
+                                   value="<?= htmlspecialchars($franchise["nom"]) ?>" required>
+                        </div>
 
-<form method="POST">
-    <label>Nom de la franchise :</label><br>
-    <input name="nom" placeholder="Nom de la franchise" value="<?= htmlspecialchars($franchise["nom"]) ?>"><br><br>
-    <input name="email" placeholder="Email" value="<?= htmlspecialchars($franchise["email"]) ?>"><br><br>
-    <label>Changer votre mot de passe (laisser vide pour ne pas changer) :</label><br>
-    <input type="password" name="password" value="" placeholder="Mot de passe"><br><br>
-    <input name="ville" placeholder="Ville" value="<?= htmlspecialchars($franchise["ville"]) ?>"><br><br>
-    <input name="telephone" placeholder="Téléphone" value="<?= htmlspecialchars($franchise["telephone"]) ?>"><br><br>
-    <button>Enregistrer</button>
-</form>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control"
+                                   value="<?= htmlspecialchars($franchise["email"]) ?>" required>
+                        </div>
 
-<a href="profil.php">⬅ Retour</a>
+                        <div class="mb-3">
+                            <label class="form-label">Ville</label>
+                            <input type="text" name="ville" class="form-control"
+                                   value="<?= htmlspecialchars($franchise["ville"]) ?>">
+                        </div>
 
-<?php endif; ?>
+                        <div class="mb-3">
+                            <label class="form-label">Téléphone</label>
+                            <input type="text" name="telephone" class="form-control"
+                                   value="<?= htmlspecialchars($franchise["telephone"]) ?>">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                Nouveau mot de passe (optionnel)
+                            </label>
+                            <input type="password" name="password" class="form-control">
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-success">
+                                 Enregistrer
+                            </button>
+                            <a href="profil.php" class="btn btn-secondary">
+                                Annuler
+                            </a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <?php endif; ?>
+
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
