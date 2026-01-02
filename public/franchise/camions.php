@@ -36,9 +36,11 @@ if ($action === "panne" && $_SERVER["REQUEST_METHOD"] === "POST") {
 
 <!DOCTYPE html>
 <html>
-<head><meta charset="UTF-8"><title>Mes camions</title></head>
+<head><meta charset="UTF-8">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<title>Mes camions</title></head>
 <body>
-
+<?php include "../../includes/navbar.php"; ?>
 <h1>Mes camions</h1>
 
 <table border="1">

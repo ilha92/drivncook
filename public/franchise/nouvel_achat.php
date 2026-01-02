@@ -46,10 +46,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Nouvel achat</title>
 </head>
 <body>
-
+<?php include "../../includes/navbar.php"; ?>
 <h1>Nouvel achat</h1>
 
 <?php if ($message != "") echo "<p>$message</p>"; ?>

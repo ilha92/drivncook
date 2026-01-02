@@ -36,10 +36,11 @@ $ventes = Vente::getByFranchise($pdo, $_SESSION["franchise_id"]);
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Mes ventes</title>
 </head>
 <body>
-
+<?php include "../../includes/navbar.php"; ?>
 <h1>Mes ventes</h1>
 
 <!-- AJOUT VENTE -->

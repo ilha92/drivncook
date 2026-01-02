@@ -49,7 +49,7 @@ $commandes = Commande::getByFranchise($pdo, $_SESSION["franchise_id"]);
     <title>Mes commandes</title>
 </head>
 <body class="bg-light">
-
+<?php include "../../includes/navbar.php"; ?>
 <div class="container py-5">
 
     <div class="card shadow-sm mx-auto" style="max-width: 900px;">
