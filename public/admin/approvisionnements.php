@@ -39,10 +39,11 @@ $commandes = Approvisionnement::getAllCommandes($pdo);
 <html>
 <head>
     <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Admin - Approvisionnements</title>
 </head>
 <body>
-
+<?php include "../../includes/navbar_admin.php"; ?>
 <h1>Gestion des commandes</h1>
 
 <table border="1" cellpadding="5">
@@ -70,21 +71,21 @@ $commandes = Approvisionnement::getAllCommandes($pdo);
 
             <a href="approvisionnements.php?action=valider&commande_id=<?= $c['id'] ?>&produit_id=<?= $c['produit_id'] ?>&quantite=<?= $c['quantite'] ?>"
                onclick="return confirm('Valider cette commande ?')">
-                ✅ Valider
+                Valider
             </a>
 
             |
             <a href="approvisionnements.php?action=delete&id=<?= $c['id'] ?>"
                onclick="return confirm('Supprimer cette commande ?')">
-                🗑️ Supprimer
+                Supprimer
             </a>
 
         <?php else: ?>
 
-            ✔️ Validée |
+                Validée |
             <a href="approvisionnements.php?action=delete&id=<?= $c['id'] ?>"
                onclick="return confirm('Supprimer cette commande ?')">
-                🗑️ Supprimer
+                Supprimer
             </a>
 
         <?php endif; ?>

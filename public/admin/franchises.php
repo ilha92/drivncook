@@ -55,17 +55,18 @@ if ($action === "delete" && $id) {
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Admin - Franchisés</title>
 </head>
 <body>
-
+<?php include "../../includes/navbar_admin.php"; ?>
 <h1>Gestion des franchisés</h1>
 
 <?php if ($action === "list"): 
 $franchises = Franchise::getAll($pdo);
 ?>
 
-<a href="?action=add">➕ Nouveau franchisé</a><br><br>
+<a href="?action=add">Nouveau franchisé</a><br><br>
 
 <table border="1" cellpadding="5">
 <tr>
@@ -92,7 +93,7 @@ $franchises = Franchise::getAll($pdo);
 <?php endforeach; ?>
 </table>
 <br><br> 
-<a href="../../pdf/franchises_pdf.php" target="_blank">📄 Générer PDF des franchises</a>
+<a href="../../pdf/franchises_pdf.php" target="_blank">Générer PDF des franchises</a>
 <br><br>
 <a href="dashboard.php">Dashboard</a>
 <?php endif; ?>
@@ -111,7 +112,7 @@ $franchises = Franchise::getAll($pdo);
     <button>Créer</button>
 </form>
 
-<a href="franchises.php">⬅ Retour</a>
+<a href="franchises.php">Retour</a>
 
 <?php endif; ?>
 <?php if ($action === "edit" && $id): 
@@ -133,7 +134,7 @@ $franchise = Franchise::getById($pdo, $id);
     <button>Enregistrer</button>
 </form>
 
-<a href="franchises.php">⬅ Retour</a>
+<a href="franchises.php">Retour</a>
 
 <?php endif; ?>
 

@@ -50,16 +50,17 @@ if ($action === "delete" && $id) {
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Admin - Camions</title>
 </head>
 <body>
-
+<?php include "../../includes/navbar_admin.php"; ?>
 <h1>Gestion du parc de camions</h1>
 
 <?php if ($action === "list"): 
 $camions = Camion::getAll($pdo);
 ?>
-<a href="?action=add">➕ Ajouter un camion</a><br><br>
+<a href="?action=add">Ajouter un camion</a><br><br>
 
 <table border="1" cellpadding="5">
 <tr>

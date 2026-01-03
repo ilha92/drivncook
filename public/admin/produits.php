@@ -52,10 +52,11 @@ $entrepots = Produit::getEntrepots($pdo);
 <html>
 <head>
     <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Admin - Produits</title>
 </head>
 <body>
-
+<?php include "../../includes/navbar_admin.php"; ?>
 <h1>Gestion des produits</h1>
 
 <h2>Ajouter un produit</h2>

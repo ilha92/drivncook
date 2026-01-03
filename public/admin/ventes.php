@@ -25,6 +25,7 @@ foreach ($ventes as $v) {
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Admin - Ventes</title>
 
     <!-- Chart.js -->
@@ -44,7 +45,7 @@ foreach ($ventes as $v) {
 </head>
 
 <body>
-
+<?php include "../../includes/navbar_admin.php"; ?>
 <h1>Analyse des ventes</h1>
 
 <h2>Historique des ventes</h2>
