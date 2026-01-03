@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($user) {
         // L'email existe déjà
-        $message = "Cet email est déjà utilisé ❌";
+        $message = "Cet email est déjà utilisé ";
     } else {
         // Hash du mot de passe
         $passwordHash = password_hash($password, PASSWORD_DEFAULT);
@@ -36,10 +36,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             header("Location: login.php");
             exit;
             
-            $message = "Inscription réussie ✅";
+            $message = "Inscription réussie";
             
         } else {
-            $message = "Erreur lors de l'inscription ❌";
+            $message = "Erreur lors de l'inscription";
         }
     }
 }
@@ -50,35 +50,53 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Inscription franchisé</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-
-<h1>Inscription franchisé</h1>
-
-<form method="POST" action="">
-    <label>Nom :</label><br>
-    <input type="text" name="nom" required><br><br>
-
-    <label>Email :</label><br>
-    <input type="email" name="email" required><br><br>
-
-    <label>Mot de passe :</label><br>
-    <input type="password" name="password" required><br><br>
-
-    <label>Ville :</label><br>
-    <input type="text" name="ville" required><br><br>
-
-    <label>Téléphone :</label><br>
-    <input type="text" name="telephone" required><br><br>   
-
-       <!-- Affichage du message -->
-    <?php if(!empty($message)): ?>
-        <p style="color: red; font-weight: bold;"><?php echo $message; ?></p>
-    <?php endif; ?>
-<br>
-    <button type="submit">S'inscrire</button>
-</form>
-
-<a href="login.php">Se connecter</a>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h3 class="text-center mb-4">Inscription franchisé</h3>
+                          <?php if ($message): ?>
+                        <div class="alert alert-danger text-center">
+                            <?= htmlspecialchars($message) ?>
+                        </div>
+                         <?php endif; ?>
+                     <form method="POST">
+                        <div class="mb-3">
+                            <label class="form-label">Nom de la franchise</label>
+                            <input type="text" name="nom" class="form-control" placeholder="Nom de votre franchise" required>
+                        </div>
+        
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control" placeholder="Votre email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Mot de passe</label>
+                            <input type="password" name="password" class="form-control" placeholder="****************" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Ville</label>
+                            <input type="text" name="ville" class="form-control" placeholder="Mettre votre ville" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Téléphone</label>
+                            <input type="text" name="telephone" class="form-control" placeholder="Numéro de téléphone" required>
+                        </div>
+                        <div class="d-grid">
+                            <button class="btn btn-success">Créer mon compte</button>
+                        </div>
+                    </form>
+                    <div class="text-center mt-3">  
+                        <a href="login.php">Déjà un compte ? Connexion</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

@@ -9,10 +9,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = $_POST["email"];
     $password = $_POST["password"];
 
-    /* =========================
-       1) Vérification ADMIN
-       ========================= */
-
     $sqlAdmin = "SELECT * FROM admins WHERE email = ?";
     $stmtAdmin = $pdo->prepare($sqlAdmin);
     $stmtAdmin->execute([$email]);
@@ -26,10 +22,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         header("Location: ../public/index.php");
         exit;
     }
-
-    /* =========================
-       2) Vérification FRANCHISÉ
-       ========================= */
 
     $sqlFranchise = "SELECT * FROM franchises WHERE email = ?";
     $stmtFranchise = $pdo->prepare($sqlFranchise);
@@ -48,7 +40,6 @@ if ($franchise && password_verify($password, $franchise["mot_de_passe"])) {
     exit;
 }
 
-
     // Si aucun des deux ne correspond
     $message = "Email ou mot de passe incorrect ";
 }
@@ -59,28 +50,46 @@ if ($franchise && password_verify($password, $franchise["mot_de_passe"])) {
 <head>
     <meta charset="UTF-8">
     <title>Connexion</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h3 class="text-center mb-4">Connexion</h3>
 
-<h1>Connexion</h1>
+                    <?php if ($message): ?>
+                        <div class="alert alert-danger text-center">
+                            <?= htmlspecialchars($message) ?>
+                        </div>
+                    <?php endif; ?>
 
-<?php
-if ($message != "") {
-    echo "<p>$message</p>";
-}
-?>
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control" placeholder="Votre email" required>
+                        </div>
 
-<form method="POST" action="">
-    <label>Email :</label><br>
-    <input type="email" name="email" required><br><br>
+                        <div class="mb-3">
+                            <label class="form-label">Mot de passe</label>
+                            <input type="password" name="password" class="form-control" placeholder="****************" required>
+                        </div>
 
-    <label>Mot de passe :</label><br>
-    <input type="password" name="password" required><br><br>
+                        <div class="d-grid">
+                            <button class="btn btn-primary">Se connecter</button>
+                        </div>
+                    </form>
 
-    <button type="submit">Se connecter</button>
-</form>
-
-<a href="register.php">Inscription franchisé</a>
+                    <div class="text-center mt-3">
+                        <a href="register.php">Créer un compte franchisé</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
