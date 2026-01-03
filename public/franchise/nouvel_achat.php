@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $pourcentage_entrepot
     ]);
 
-    $message = "Achat enregistré avec succès ✅";
+    $message = "Achat enregistré avec succès !";
 }
 ?>
 
@@ -46,35 +46,63 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Nouvel achat</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <?php include "../../includes/navbar.php"; ?>
-<h1>Nouvel achat</h1>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Nouvel achat</h1>
+    <!-- Affichage message -->
+    <?php if (!empty($message)): ?>
+        <div class="alert alert-info text-center">
+            <?= htmlspecialchars($message) ?>
+        </div>
+    <?php endif; ?>
 
-<?php if ($message != "") echo "<p>$message</p>"; ?>
+    <!-- FORMULAIRE -->
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body">
 
-<form method="POST">
+                    <form method="POST">
 
-    <label>Montant total (€)</label><br>
-    <input type="number" name="montant" step="0.01" required><br><br>
+                        <div class="mb-3">
+                            <label class="form-label">Montant total (€)</label>
+                            <input type="number" name="montant" step="0.01" class="form-control" required>
+                        </div>
 
-    <label>Entrepôt</label><br>
-    <select name="entrepot" required>
-        <?php foreach ($entrepots as $entrepot): ?>
-            <option value="<?= $entrepot["id"] ?>">
-                <?= $entrepot["nom"] ?> - <?= $entrepot["ville"] ?>
-            </option>
-        <?php endforeach; ?>
-    </select><br><br>
+                        <div class="mb-4">
+                            <label class="form-label">Entrepôt</label>
+                            <select name="entrepot" class="form-select" required>
+                                <?php foreach ($entrepots as $entrepot): ?>
+                                    <option value="<?= $entrepot["id"] ?>">
+                                        <?= htmlspecialchars($entrepot["nom"]) ?> - <?= htmlspecialchars($entrepot["ville"]) ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
 
-    <button type="submit">Valider l'achat</button>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                 Valider l'achat
+                            </button>
+                        </div>
 
-</form>
+                    </form>
 
-<br>
-<a href="dashboard.php">⬅ Retour au dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- RETOUR -->
+    <div class="text-center mt-4">
+        <a href="dashboard.php" class="btn btn-outline-dark">
+             Retour au dashboard
+        </a>
+    </div>
+</div>
 </body>
 </html>

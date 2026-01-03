@@ -50,10 +50,10 @@ $franchise = Franchise::getById($pdo, $franchise_id);
             <?php if ($action === "list"): ?>
             <div class="card shadow">
                 <div class="card-header text-center fw-bold">
-                    👤 Mon profil
+                    Mon profil
                 </div>
                 <div class="card-body">
-                    <p><strong>Nom :</strong> <?= htmlspecialchars($franchise["nom"]) ?></p>
+                    <p><strong>Nom de la franchise :</strong> <?= htmlspecialchars($franchise["nom"]) ?></p>
                     <p><strong>Email :</strong> <?= htmlspecialchars($franchise["email"]) ?></p>
                     <p><strong>Ville :</strong> <?= htmlspecialchars($franchise["ville"]) ?></p>
                     <p><strong>Téléphone :</strong> <?= htmlspecialchars($franchise["telephone"]) ?></p>
@@ -87,25 +87,25 @@ $franchise = Franchise::getById($pdo, $franchise_id);
                     <form method="POST">
 
                         <div class="mb-3">
-                            <label class="form-label">Nom</label>
+                            <label class="form-label">Nom de la franchise :</label>
                             <input type="text" name="nom" class="form-control"
                                    value="<?= htmlspecialchars($franchise["nom"]) ?>" required>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Email</label>
+                            <label class="form-label">Email :</label>
                             <input type="email" name="email" class="form-control"
                                    value="<?= htmlspecialchars($franchise["email"]) ?>" required>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Ville</label>
+                            <label class="form-label">Ville :</label>
                             <input type="text" name="ville" class="form-control"
                                    value="<?= htmlspecialchars($franchise["ville"]) ?>">
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Téléphone</label>
+                            <label class="form-label">Téléphone :</label>
                             <input type="text" name="telephone" class="form-control"
                                    value="<?= htmlspecialchars($franchise["telephone"]) ?>">
                         </div>

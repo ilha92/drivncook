@@ -1,6 +1,5 @@
 <?php
 session_start();
-// Sécurité : uniquement franchisé
 if (!isset($_SESSION["type"]) || $_SESSION["type"] !== "franchise") {
     header("Location: ../login.php");
     exit;
@@ -28,7 +27,7 @@ if ($_SESSION["droit_entree"] !== "accepte") {
 <div class="container py-5">
 
     <h1 class="text-center mb-4 fw-bold">Mon espace franchisé</h1>
-    <p class="text-center text-muted mb-5">
+    <p class="text-center mb-5">
         Gérez vos commandes, vos ventes et votre activité facilement
     </p>
 

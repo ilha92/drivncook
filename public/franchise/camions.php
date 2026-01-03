@@ -35,73 +35,130 @@ if ($action === "panne" && $_SERVER["REQUEST_METHOD"] === "POST") {
 ?>
 
 <!DOCTYPE html>
-<html>
-<head><meta charset="UTF-8">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<title>Mes camions</title></head>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Mes camions</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
 <body>
+
 <?php include "../../includes/navbar.php"; ?>
-<h1>Mes camions</h1>
 
-<table border="1">
-<tr>
-    <th>Immatriculation</th>
-    <th>Modèle</th>
-    <th>Statut</th>
-    <th>Actions</th>
-</tr>
+<div class="container mt-5">
 
-<?php foreach ($camions as $c): ?>
-<tr>
-    <td><?= $c["immatriculation"] ?></td>
-    <td><?= $c["modele"] ?></td>
-    <td><?= $c["statut"] ?></td>
-    <td>
-        <a href="?action=panne&id=<?= $c['id'] ?>">🚨 Déclarer panne</a>
-        <a href="?action=historique&id=<?= $c['id'] ?>">📜 Historique</a>
-    </td>
-</tr>
-<?php endforeach; ?>
-</table>
-<a href="dashboard.php">Dashboard Franchise</a>
-<?php if ($action === "panne" && $id): ?>
-<h2>Déclarer une panne</h2>
-<form method="POST">
-    <input type="hidden" name="camion_id" value="<?= $id ?>">
-    <input type="date" name="date_panne" required><br><br>
-    <input name="type_panne" placeholder="Type de panne" required><br><br>
-    <textarea name="description" placeholder="Description"></textarea><br><br>
-    <button>Envoyer</button>
-</form>
-<a href="camions.php">retour</a>
-<?php endif; ?>
-<?php if ($action === "historique" && $id): 
-$pannes = Camion::getPannes($pdo, $id);
-?>
+    <h1 class="mb-4 text-center">Mes camions</h1>
 
-<h2>Historique des pannes</h2>
+    <!-- TABLE CAMIONS -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Immatriculation</th>
+                    <th>Modèle</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($camions as $c): ?>
+                <tr>
+                    <td><?= htmlspecialchars($c["immatriculation"]) ?></td>
+                    <td><?= htmlspecialchars($c["modele"]) ?></td>
+                    <td>
+                        <?php if ($c["statut"] === "actif"): ?>
+                            <span class="badge bg-success">Actif</span>
+                        <?php elseif ($c["statut"] === "panne"): ?>
+                            <span class="badge bg-danger">En panne</span>
+                        <?php else: ?>
+                            <span class="badge bg-warning text-dark">Maintenance</span>
+                        <?php endif; ?>
+                    </td>
+                    <td class="d-flex justify-content-center gap-2">
+                        <a href="?action=panne&id=<?= $c['id'] ?>" class="btn btn-outline-danger btn-sm">
+                             Panne
+                        </a>
+                        <a href="?action=historique&id=<?= $c['id'] ?>" class="btn btn-outline-primary btn-sm">
+                             Historique
+                        </a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 
-<?php if (count($pannes) === 0): ?>
-    <p>Aucune panne enregistrée.</p>
-<?php else: ?>
-<table border="1">
-<tr>
-    <th>Date</th>
-    <th>Description</th>
-</tr>
+    <!-- DECLARATION PANNE -->
+    <?php if ($action === "panne" && $id): ?>
+        <div class="card shadow mt-5">
+            <div class="card-body">
+                <h3 class="mb-4">Déclarer une panne</h3>
+                <form method="POST">
+                    <input type="hidden" name="camion_id" value="<?= $id ?>">
 
-<?php foreach ($pannes as $p): ?>
-<tr>
-    <td><?= $p["date_panne"] ?></td>
-    <td><?= htmlspecialchars($p["description"]) ?></td>
-</tr>
-<?php endforeach; ?>
-</table>
-<?php endif; ?>
+                    <div class="mb-3">
+                        <label class="form-label">Date de la panne</label>
+                        <input type="date" name="date_panne" class="form-control" required>
+                    </div>
 
-<a href="camions.php">⬅ Retour</a>
+                    <div class="mb-3">
+                        <label class="form-label">Type de panne</label>
+                        <input name="type_panne" class="form-control" placeholder="Ex : moteur, frein…" required>
+                    </div>
 
-<?php endif; ?>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea name="description" class="form-control" rows="3"></textarea>
+                    </div>
+
+                    <button class="btn btn-danger">Envoyer</button>
+                    <a href="camions.php" class="btn btn-secondary ms-2">Annuler</a>
+                </form>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <!-- HISTORIQUE DES PANNES -->
+    <?php if ($action === "historique" && $id): 
+        $pannes = Camion::getPannes($pdo, $id);
+    ?>
+        <div class="card shadow mt-5">
+            <div class="card-body">
+                <h3 class="mb-4"> Historique des pannes</h3>
+
+                <?php if (count($pannes) === 0): ?>
+                    <div class="alert alert-info">Aucune panne enregistrée.</div>
+                <?php else: ?>
+                    <table class="table table-striped text-center">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($pannes as $p): ?>
+                            <tr>
+                                <td><?= $p["date_panne"] ?></td>
+                                <td><?= htmlspecialchars($p["description"]) ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                <?php endif; ?>
+
+                <a href="camions.php" class="btn btn-secondary"> Retour</a>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <div class="text-center mt-5">
+        <a href="dashboard.php" class="btn btn-outline-dark">
+             Dashboard Franchise
+        </a>
+    </div>
+
+</div>
 
 </body>
 </html>
