@@ -48,9 +48,7 @@ if ($action === "delete" && $id) {
     header("Location: franchises.php");
     exit;
 }
-
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>

@@ -15,14 +15,11 @@ if (!isset($_SESSION["type"])) {
 </head>
 <body>
 
-<?php include "../includes/navbar.php"; ?>
-
-<div class="container mt-5">
-
-    <h1 class="text-center mb-5">Accueil</h1>
-
     <!-- ADMIN -->
     <?php if ($_SESSION["type"] === "admin"): ?>
+        <?php include "../includes/navbar_admin.php"; ?>
+        <div class="container mt-5">
+            <h1 class="text-center mb-5">Accueil</h1>
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card shadow text-center">
@@ -44,6 +41,9 @@ if (!isset($_SESSION["type"])) {
     <?php endif; ?>
 
 <?php if ($_SESSION["type"] === "franchise"): ?>
+    <?php include "../includes/navbar.php"; ?>
+    <div class="container mt-5">
+        <h1 class="text-center mb-5">Accueil</h1>
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card shadow text-center">

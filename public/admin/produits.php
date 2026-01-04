@@ -64,7 +64,7 @@ $entrepots = Produit::getEntrepots($pdo);
 <form method="POST">
     <label>Nom du produit</label><br>
     <input name="nom" placeholder="Nom du produit" required><br><br>
-    <label>Prix (€)</label><br>
+    <label>Prix unitaire (€)</label><br>
     <input type="number" name="prix" step="0.01" required><br><br>
     <label>Stock</label><br>
     <input type="number" name="stock" placeholder="Stock" min="0" required><br><br>
@@ -89,7 +89,7 @@ endif; ?>
 <table border="1" cellpadding="5">
 <tr>
     <th>Produit</th>
-    <th>Prix (€)</th>
+    <th>Prix unitaire (€)</th>
     <th>Stock</th>
     <th>Entrepôt</th>
     <th>Action</th>
@@ -116,22 +116,24 @@ $produits = Produit::getById($pdo, $id);
 <form method="POST">
     <label>Nom du produit</label><br>
     <input name="nom" value="<?= htmlspecialchars($produits["nom"]) ?>"><br><br>
-    <label>Prix (€)</label><br>
+    <label>Prix unitaire (€)</label><br>
     <input name="prix" value="<?= htmlspecialchars($produits["prix"]) ?>"><br><br>
     <label>Stock</label><br>
     <input name="stock" value="<?= htmlspecialchars($produits["stock"]) ?>"><br><br>
     <label>Entrepôt</label><br>
-    <input name="entrepot_id" value="<?= htmlspecialchars($produits["entrepot_id"]) ?>"><br><br>
+    <select name="entrepot_id" required>
+        <?php foreach ($entrepots as $e): ?>
+            <option value="<?= $e["id"] ?>"><?= $e["nom"] ?></option>
+        <?php endforeach; ?>
+    </select><br><br>
     <button>Enregistrer</button>
 </form>
 
-<a href="produits.php">⬅ Retour</a>
-
+<a href="produits.php">Retour</a>
 <?php endif; ?>
-
 </table>
 
-<a href="dashboard.php">⬅ Retour admin</a>
+<a href="dashboard.php">Retour admin</a>
 
 </body>
 </html>
