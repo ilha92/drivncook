@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : dim. 04 jan. 2026 à 14:15
+-- Généré le : dim. 04 jan. 2026 à 22:57
 -- Version du serveur : 8.0.27
 -- Version de PHP : 7.4.26
 
@@ -110,14 +110,14 @@ CREATE TABLE IF NOT EXISTS `camions` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `immatriculation` (`immatriculation`),
   KEY `franchise_id` (`franchise_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `camions`
 --
 
 INSERT INTO `camions` (`id`, `immatriculation`, `modele`, `statut`, `franchise_id`, `created_at`) VALUES
-(25, '888-884', 'Renault Master', 'actif', 25, '2026-01-04 10:56:30'),
+(26, '888-887', 'Mercedes-Benz Sprinter', 'actif', 25, '2026-01-04 22:40:11'),
 (23, '888-888', 'Mercedes-Benz Sprinter', 'actif', 18, '2026-01-02 15:21:08');
 
 -- --------------------------------------------------------
@@ -150,8 +150,7 @@ INSERT INTO `commandes` (`id`, `franchise_id`, `produit_id`, `quantite`, `date_c
 (22, 22, 20, 30, '2025-12-31 00:54:12', 'en attente'),
 (23, 18, 21, 45, '2026-01-01 20:33:31', 'en attente'),
 (24, 18, 21, 5, '2026-01-01 21:56:26', 'en attente'),
-(30, 25, 25, 20, '2026-01-04 11:57:15', 'validée'),
-(31, 24, 26, 25, '2026-01-04 14:50:18', 'validée');
+(30, 25, 25, 20, '2026-01-04 11:57:15', 'validée');
 
 -- --------------------------------------------------------
 
@@ -165,6 +164,7 @@ CREATE TABLE IF NOT EXISTS `entrepots` (
   `nom` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `ville` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `prix` decimal(10,2) NOT NULL,
+  `stock` int DEFAULT '1',
   `actif` tinyint DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -173,10 +173,10 @@ CREATE TABLE IF NOT EXISTS `entrepots` (
 -- Déchargement des données de la table `entrepots`
 --
 
-INSERT INTO `entrepots` (`id`, `nom`, `ville`, `prix`, `actif`) VALUES
-(32, 'EntrepotParis', 'Paris15', '8000.00', 1),
-(34, 'EntrepotParisSud', 'Nanterre', '7500.00', 1),
-(35, 'EntrepotCreteil', 'Creteil', '4500.00', 1);
+INSERT INTO `entrepots` (`id`, `nom`, `ville`, `prix`, `stock`, `actif`) VALUES
+(32, 'EntrepotParis', 'Paris15', '8000.00', 1, 1),
+(34, 'EntrepotParisSud', 'Nanterre', '7500.00', 1, 1),
+(35, 'EntrepotCreteil', 'Creteil', '4500.00', 1, 1);
 
 -- --------------------------------------------------------
 
