@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // 1. on modifie un entrepôt
     if ($action === "edit" && $id) {
         $actif = isset($_POST["actif"]) ? 1 : 0;
-        if (Entrepot::update($pdo, $id, $_POST["nom"], $_POST["ville"], $_POST["prix"], $actif)) {
+        if (Entrepot::update($pdo, $id, $_POST["nom"], $_POST["ville"], $_POST["prix"], $actif, $_POST["stock"])) {
             $message = "Entrepôt modifié !";
         } else {
             $message = "Erreur modification.";
@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
     
     // 2. j'ajoute un entrepôt
-    if (Entrepot::create($pdo, $_POST["nom"], $_POST["ville"], $_POST["prix"])) {
+    if (Entrepot::create($pdo, $_POST["nom"], $_POST["ville"], $_POST["prix"], $_POST["stock"])) {
         $message = "Entrepôt ajouté !";
     } else {
         $message = "Erreur ajout.";
@@ -87,6 +87,13 @@ if ($action === "edit" && $id) {
                 <div class="col-md-4">
                     <input class="form-control" name="prix" type="number" step="0.01" placeholder="Prix (€)" required>
                 </div>
+                <!-- Après champ prix -->
+                <div class="col-md-4">
+                    <label class="form-label">Stock</label>
+                    <input class="form-control" name="stock" type="number" min="0" 
+                        value="<?= $entrepot['stock'] ?? 1 ?>" required>
+                </div>
+
                 <div class="col-12">
                     <button class="btn btn-primary">Ajouter</button>
                 </div>
@@ -113,6 +120,11 @@ if ($action === "edit" && $id) {
                             <label class="form-label">Prix (€)</label>
                             <input class="form-control" name="prix" type="number" step="0.01" 
                                    value="<?= htmlspecialchars($entrepot["prix"]) ?>" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Stock</label>
+                            <input class="form-control" name="stock" type="number" min="0" 
+                                value="<?= $entrepot['stock'] ?? 1 ?>" required>
                         </div>
                         <div class="col-md-3">
                             <label class="form-label">Statut</label>
@@ -143,6 +155,7 @@ if ($action === "edit" && $id) {
                         <th>Nom</th>
                         <th>Ville</th>
                         <th>Prix (€)</th>
+                        <th>Stock</th>
                         <th>Statut</th>
                         <th>Actions</th>
                     </tr>
@@ -154,6 +167,7 @@ if ($action === "edit" && $id) {
                             <td><?= htmlspecialchars($e["nom"]) ?></td>
                             <td><?= htmlspecialchars($e["ville"]) ?></td>
                             <td><?= number_format($e["prix"], 2, ',', ' ') ?> €</td>
+                            <td><?= $e["stock"] ?></td>
                             <td>
                                 <span class="badge <?= $e["actif"] ? 'bg-success' : 'bg-secondary' ?>">
                                     <?= $e["actif"] ? 'Actif' : 'Désactivé' ?>

@@ -45,9 +45,9 @@ if ($_SESSION["droit_entree"] !== "accepte") {
         <div class="col-md-4">
             <div class="card shadow-sm h-100 text-center">
                 <div class="card-body">
-                    <h5 class="card-title">Nouvel achat</h5>
-                    <p class="card-text">Commander des produits auprès du fournisseur.</p>
-                    <a href="nouvel_achat.php" class="btn btn-primary w-100">Commander</a>
+                    <h5 class="card-title">Achats d'entrepot</h5>
+                    <p class="card-text">Acheter des entrepôts.</p>
+                    <a href="achats.php" class="btn btn-primary w-100">Commander</a>
                 </div>
             </div>
         </div>

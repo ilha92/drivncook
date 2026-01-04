@@ -24,10 +24,10 @@ class Entrepot {
         return $stmt->execute([$nom, $ville, $prix]);
     }
 
-    public static function update($pdo, $id, $nom, $ville, $prix, $actif = 1): bool 
+    public static function update($pdo, $id, $nom, $ville, $prix, $actif = 1, $stock = 1): bool 
     {
-        $stmt = $pdo->prepare("UPDATE entrepots SET nom=?, ville=?, prix=?, actif=? WHERE id=?");
-        $result = $stmt->execute([$nom, $ville, $prix, $actif, $id]);
+        $stmt = $pdo->prepare("UPDATE entrepots SET nom=?, ville=?, prix=?, actif=?, stock=? WHERE id=?");
+        $result = $stmt->execute([$nom, $ville, $prix, $actif, $stock, $id]);
         return $result && $stmt->rowCount() > 0;
     }
 
