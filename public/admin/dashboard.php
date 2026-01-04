@@ -16,18 +16,75 @@ if (!isset($_SESSION["type"]) || $_SESSION["type"] !== "admin") {
 </head>
 <body>
 <?php include "../../includes/navbar_admin.php"; ?>
-<h1>Back-office Admin</h1>
 
-<ul>
-    <li><a href="franchises.php">Franchisés</a></li>
-    <li><a href="produits.php">Nouveaux Produits</a></li>
-    <li><a href="approvisionnements.php">Approvisionnements</a></li>
-    <li><a href="ventes.php">Ventes</a></li>
-    <li><a href="achats.php">Achats</a></li>
-    <li><a href="camions.php">Camions</a></li>
-</ul>
+<h1 class="text-center mb-4 fw-bold">Back-office Admin</h1>
+<p class="text-center mb-5">Gérer les différents aspects de l'entreprise</p>
 
-<a href="../../access/logout.php">Se déconnecter</a>
+    <div class="row g-4 justify-content-center">
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100 text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Gerer les Franchisés</h5>
+                    <p class="card-text">Consulter et modifier les informations des franchisés.</p>
+                    <a href="franchises.php" class="btn btn-primary w-100">Accéder</a>
+                </div>
+            </div>
+        </div>
 
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100 text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Nouveaux Produits</h5>
+                    <p class="card-text">Créer de nouveaux produits.</p>
+                    <a href="produits.php" class="btn btn-primary w-100">Accéder</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100 text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Approvisionnements</h5>
+                    <p class="card-text">Gérer les approvisionnements des produits.</p>
+                    <a href="approvisionnements.php" class="btn btn-primary w-100">Accéder</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100 text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Gerer les ventes</h5>
+                    <p class="card-text">Mes ventes et performances.</p>
+                    <a href="ventes.php" class="btn btn-primary w-100">Accéder</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100 text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Gerer les camions</h5>
+                    <p class="card-text">Créer et gérer vos camions.</p>
+                    <a href="camions.php" class="btn btn-primary w-100">Accéder</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100 text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Achats</h5>
+                    <p class="card-text">Gérer les achats et fournisseurs.</p>
+                    <a href="achats.php" class="btn btn-primary w-100">Accéder</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="text-center mt-5">
+        <a href="../../access/logout.php" class="btn btn-outline-danger">Se déconnecter</a>
+    </div>
 </body>
 </html>
