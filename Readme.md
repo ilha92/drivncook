@@ -1,124 +1,94 @@
 Projet Driv'n Cook – Mission 1
 
-j'ai heberger mon site voici l'url : https://inkwei.com/
+Lien du site hébergé : https://inkwei.com/
+
+GitHub du projet : https://github.com/ilha92/drivncook
 
 Présentation générale
-Ce projet correspond à la Mission 1 : Gestion des services franchisés du projet annuel ESGI 2024-2025.
-​
-L’objectif est de développer une application web permettant à la société Driv'n Cook de gérer les franchisés, les camions, les pannes, l’entretien, l’approvisionnement et les ventes.
+
+Pour cette Mission 1, j’ai travaillé sur la gestion des services franchisés du projet annuel ESGI 2024-2025.
+L’objectif était de créer une application web permettant à la société Driv’n Cook de gérer :
+
+Les franchisés
+
+Les camions
+
+Les pannes et l’entretien
+
+L’approvisionnement
+
+Les ventes
 
 Technologies utilisées
+
 Back-end : PHP (sans framework)
 
 Front-end : HTML, CSS, JavaScript (basique)
 
-Base de données : MySQL
-
-Outil BDD : MySQL Workbench
+Base de données : MySQL, gérée via MySQL Workbench
 
 Serveur local : WAMP
 
-Ces choix restent simples pour se concentrer sur la logique métier et l’organisation du code.
-​
+J’ai choisi des technologies simples pour me concentrer sur la logique métier et l’organisation du code.
 
 Architecture du projet
-L’architecture est découpée par responsabilités : accès, pages publiques, génération de PDF, configuration, logique applicative et ressources front.
-​
 
-text
+Le projet est organisé par responsabilités, ce qui rend le code plus clair et facile à maintenir :
+
 drivncook/
 │
-├── access/
+├── access/ # Connexion, inscription, déconnexion
 │ ├── login.php
 │ ├── register.php
 │ └── logout.php
 │
-├── public/
+├── public/ # Pages accessibles côté utilisateur
 │ ├── index.php
-│ ├── admin/
-│ │ ├── dashboard.php
-│ │ ├── achats.php
-│ │ ├── approvisionnements.php
-│ │ ├── camions.php
-│ │ ├── entrepots.php
-│ │ ├── franchises.php
-│ │ ├── produits.php
-│ │ └── ventes.php
-│ └── franchise/
-│ ├── dashboard.php
-│ ├── profil.php
-│ ├── achat.php
-│ ├── achats.php
-│ ├── camions.php
-│ ├── commandes.php
-│ ├── entretien.php
-│ └── ventes.php
+│ ├── admin/ # Back-office admin
+│ └── franchise/ # Espace franchisé
 │
-├── pdf/
-│ ├── franchises_pdf.php
-│ └── ventes_pdf.php
+├── pdf/ # Génération de PDF
 │
-├── config/
-│ └── database.php
+├── config/ # Configuration BDD
 │
-├── src/
-│ ├── models/
-│ │ ├── Admin.php
-│ │ ├── Franchise.php
-│ │ ├── Camion.php
-│ │ ├── Produit.php
-│ │ ├── Vente.php
-│ │ └── Entretien.php
-│ └── controllers/
-│ ├── AuthController.php
-│ ├── FranchiseController.php
-│ ├── CamionController.php
-│ ├── ProduitController.php
-│ ├── VenteController.php
-│ └── EntretienController.php
-│
-├── assets/
-│ ├── css/
-│ │ └── style.css
-│ └── js/
-│ └── script.js
-│
+├── src/ # Code source
+│ ├── models/ # Gestion des données
+
+├── assets/ # Styles et scripts front
 └── README.md
 
 Fonctionnalités principales
-Gestion des franchisés : création, modification, suppression, consultation.
 
-Gestion du parc de camions et des entrepôts, avec suivi des entretiens et des pannes.
+Gestion des franchisés : création, modification, suppression, consultation
 
-Gestion des produits, des approvisionnements et des achats des franchisés.
+Gestion des camions et entrepôts avec suivi des entretiens et pannes
 
-Gestion des ventes avec historique accessible pour l’admin et les franchisés.
+Gestion des produits et approvisionnements
 
-Génération de PDF pour les listes de franchisés et les rapports de ventes.
+Suivi des ventes avec historique accessible aux admins et franchisés
 
-Ces fonctionnalités couvrent la gestion opérationnelle d’un réseau de franchises (administration centrale et côté franchisé).
-​
+Génération de PDF pour les rapports et listes
+
+Ces fonctionnalités couvrent la gestion opérationnelle du réseau de franchises, côté administration et franchisé.
 
 Accès et rôles
-Deux types d’utilisateurs existent dans l’application.
 
-Administrateur
+Il y a 2 types d’utilisateurs :
 
-Créé directement dans la base de données.
+1. Administrateur
 
-Accès au back-office (gestion des franchisés, camions, produits, ventes, etc.).
+Créé directement dans la base de données
 
-Le rôle admin n’apparaît jamais dans les formulaires.
+Accès complet au back-office
 
-Franchisé
+Ne peut pas créer de compte via formulaire
 
-Peut créer un compte via register.php.
+2. Franchisé
 
-Le rôle est défini automatiquement côté PHP lors de l’inscription.
+Peut s’inscrire via register.php
 
-Accès à un espace personnel pour suivre ses camions, ses commandes, ses achats et ses ventes.
+Accès à un espace personnel pour suivre camions, commandes, achats et ventes
 
-La séparation des rôles permet de sécuriser les droits et de limiter les actions possibles selon le profil.
-​
+La séparation des rôles permet de sécuriser l’accès et de limiter les actions selon le profil.
 
 Projet réalisé dans le cadre du projet annuel ESGI 2024-2025 – Mission 1.
