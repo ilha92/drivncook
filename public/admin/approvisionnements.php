@@ -36,67 +36,97 @@ $commandes = Approvisionnement::getAllCommandes($pdo);
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Admin - Approvisionnements</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <?php include "../../includes/navbar_admin.php"; ?>
-<h1>Gestion des commandes</h1>
+<div class="container-xl mt-5">
+    <h1 class="mb-4">Gestion des commandes</h1>
 
-<table border="1" cellpadding="5">
-<tr>
-    <th>Date</th>
-    <th>Franchisé</th>
-    <th>Produit</th>
-    <th>Stock</th>
-    <th>Quantité</th>
-    <th>Statut</th>
-    <th>Action</th>
-</tr>
+    <div class="card shadow">
+        <div class="card-body">
 
-<?php foreach ($commandes as $c): ?>
-<tr>
-    <td><?= $c["date_commande"] ?></td>
-    <td><?= $c["franchise"] ?></td>
-    <td><?= $c["produit"] ?></td>
-    <td><?= $c["stock"] ?></td>
-    <td><?= $c["quantite"] ?></td>
-    <td><?= $c["statut"] ?></td>
-    <td>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Date</th>
+                            <th>Franchisé</th>
+                            <th>Produit</th>
+                            <th>Stock actuel</th>
+                            <th>Quantité demandée</th>
+                            <th>Statut</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-        <?php if ($c["statut"] === "en attente"): ?>
+                    <?php foreach ($commandes as $c): ?>
+                        <tr>
+                            <td><?= $c["date_commande"] ?></td>
+                            <td><?= htmlspecialchars($c["franchise"]) ?></td>
+                            <td><?= htmlspecialchars($c["produit"]) ?></td>
+                            <td>
+                                <span class="badge bg-info text-dark">
+                                    <?= $c["stock"] ?>
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge bg-secondary">
+                                    <?= $c["quantite"] ?>
+                                </span>
+                            </td>
+                            <td>
+                                <?php if ($c["statut"] === "en attente"): ?>
+                                    <span class="badge bg-warning text-dark">
+                                        En attente
+                                    </span>
+                                <?php else: ?>
+                                    <span class="badge bg-success">
+                                        Validée
+                                    </span>
+                                <?php endif; ?>
+                            </td>
+                            <td class="text-end">
 
-            <a href="approvisionnements.php?action=valider&commande_id=<?= $c['id'] ?>&produit_id=<?= $c['produit_id'] ?>&quantite=<?= $c['quantite'] ?>"
-               onclick="return confirm('Valider cette commande ?')">
-                Valider
-            </a>
+                                <?php if ($c["statut"] === "en attente"): ?>
 
-            |
-            <a href="approvisionnements.php?action=delete&id=<?= $c['id'] ?>"
-               onclick="return confirm('Supprimer cette commande ?')">
-                Supprimer
-            </a>
+                                    <a href="approvisionnements.php?action=valider&commande_id=<?= $c['id'] ?>&produit_id=<?= $c['produit_id'] ?>&quantite=<?= $c['quantite'] ?>"
+                                       class="btn btn-sm btn-success"
+                                       onclick="return confirm('Valider cette commande ?')">
+                                        Valider
+                                    </a>
 
-        <?php else: ?>
+                                <?php endif; ?>
 
-                Validée |
-            <a href="approvisionnements.php?action=delete&id=<?= $c['id'] ?>"
-               onclick="return confirm('Supprimer cette commande ?')">
-                Supprimer
-            </a>
+                                <a href="approvisionnements.php?action=delete&id=<?= $c['id'] ?>"
+                                   class="btn btn-sm btn-outline-danger ms-1"
+                                   onclick="return confirm('Supprimer cette commande ?')">
+                                    🗑️
+                                </a>
 
-        <?php endif; ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
 
-    </td>
-</tr>
+                    </tbody>
+                </table>
+            </div>
 
-<?php endforeach; ?>
-</table>
+        </div>
+    </div>
 
-<a href="dashboard.php">⬅ Retour admin</a>
+    <div class="text-center mt-4">
+        <a href="dashboard.php" class="btn btn-outline-dark">
+            Retour admin
+        </a>
+    </div>
+
+</div>
 
 </body>
 </html>
