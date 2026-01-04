@@ -53,5 +53,4 @@ class Produit
         return $stmt->execute([$id]);
     }
 
-
 }
