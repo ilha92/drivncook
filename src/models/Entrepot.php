@@ -10,6 +10,7 @@ class Entrepot {
 
     public static function getAll($pdo) {
         $stmt = $pdo->query("SELECT * FROM entrepots ORDER BY id DESC");
+        // recupère tous les entrepôts sous forme de tableau associatif
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -23,7 +24,7 @@ class Entrepot {
         return $stmt->execute([$nom, $ville, $prix]);
     }
 
-    public static function update(PDO $pdo, int $id, string $nom, string $ville, float $prix, int $actif = 1): bool 
+    public static function update($pdo, $id, $nom, $ville, $prix, $actif = 1): bool 
     {
         $stmt = $pdo->prepare("UPDATE entrepots SET nom=?, ville=?, prix=?, actif=? WHERE id=?");
         $result = $stmt->execute([$nom, $ville, $prix, $actif, $id]);

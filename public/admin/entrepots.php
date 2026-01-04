@@ -3,7 +3,6 @@ session_start();
 require_once "../../config/database.php";
 require_once "../../src/models/Entrepot.php";
 
-// Sécurité admin
 if (!isset($_SESSION["type"]) || $_SESSION["type"] !== "admin") {
     header("Location: ../login.php");
     exit;
@@ -14,13 +13,13 @@ $id = $_GET["id"] ?? null;
 $message = "";
 $entrepot = null;
 
-// GESTION ACTIONS
+// Traitement des formulaires ajout et modification
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     
-    // 1. MODIFICATION (priorité)
+    // 1. on modifie un entrepôt
     if ($action === "edit" && $id) {
         $actif = isset($_POST["actif"]) ? 1 : 0;
-        if (Entrepot::update($pdo, (int)$id, $_POST["nom"], $_POST["ville"], (float)$_POST["prix"], $actif)) {
+        if (Entrepot::update($pdo, $id, $_POST["nom"], $_POST["ville"], $_POST["prix"], $actif)) {
             $message = "Entrepôt modifié !";
         } else {
             $message = "Erreur modification.";
@@ -29,17 +28,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
     
-    // 2. AJOUT (seulement si pas édition)
-    if (Entrepot::create($pdo, $_POST["nom"], $_POST["ville"], (float)$_POST["prix"])) {
+    // 2. j'ajoute un entrepôt
+    if (Entrepot::create($pdo, $_POST["nom"], $_POST["ville"], $_POST["prix"])) {
         $message = "Entrepôt ajouté !";
     } else {
         $message = "Erreur ajout.";
     }
 }
 
-// SUPPRESSION
+// je supprime un entrepôt
 if ($action === "delete" && $id) {
-    if (Entrepot::delete($pdo, (int)$id)) {
+    if (Entrepot::delete($pdo, $id)) {
         $message = "Entrepôt supprimé !";
     }
     header("Location: entrepots.php");
@@ -49,7 +48,7 @@ if ($action === "delete" && $id) {
 // DONNÉES
 $entrepots = Entrepot::getAll($pdo);
 if ($action === "edit" && $id) {
-    $entrepot = Entrepot::getById($pdo, (int)$id);
+    $entrepot = Entrepot::getById($pdo, $id);
     if (!$entrepot) {
         header("Location: entrepots.php?error=id-inexistant");
         exit;

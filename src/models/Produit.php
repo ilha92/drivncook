@@ -1,12 +1,11 @@
 <?php
-
 class Produit
 {
       public static function getById($pdo, $id)
     {
         $stmt = $pdo->prepare("SELECT * FROM produits WHERE id = ?");
         $stmt->execute([$id]);
-        return $stmt->fetch();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     // Tous les produits
@@ -20,13 +19,13 @@ class Produit
         return $pdo->query($sql)->fetchAll();
     }
 
-    // Tous les entrepôts
-    public static function getEntrepots($pdo)
-    {
-        return $pdo->query("SELECT * FROM entrepots")->fetchAll();
+    // vois les entrepôts
+    public static function getEntrepots($pdo) {
+        $stmt = $pdo->query("SELECT id, nom FROM entrepots WHERE actif = 1 ORDER BY nom");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Créer un produit
+    // je crée un produit
     public static function create($pdo, $nom, $prix, $stock, $entrepot_id)
     {
         $stmt = $pdo->prepare(
@@ -46,11 +45,10 @@ class Produit
         return $stmt->execute([$nom, $prix, $stock, $entrepot_id, $id]);
     }
 
-    // Suppression par l'admin
+    // Suppression d'un produit par l'admin
     public static function delete($pdo, $id)
     {
         $stmt = $pdo->prepare("DELETE FROM produits WHERE id = ?");
         return $stmt->execute([$id]);
     }
-
 }

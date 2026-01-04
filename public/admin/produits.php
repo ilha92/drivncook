@@ -8,12 +8,28 @@ if (!isset($_SESSION["type"]) || $_SESSION["type"] !== "admin") {
     exit;
 }
 
-// Action par défaut
 $action = $_GET["action"] ?? "list";
 $id = $_GET["id"] ?? null;
+$message = "";
 
-// Ajout d'un produit
+// GESTION FORMULAIRES (FIX)
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    
+    // 1. MODIFICATION d'abord (priorité)
+    if ($action === "edit" && $id) {
+        Produit::updateByAdmin(
+            $pdo,
+            $_POST["nom"],
+            $_POST["prix"],
+            $_POST["stock"],
+            $_POST["entrepot_id"],
+            $id
+        );
+        header("Location: produits.php?success=edit");
+        exit;
+    }
+    
+    // 2. AJOUT seulement si PAS édition
     Produit::create(
         $pdo,
         $_POST["nom"],
@@ -21,26 +37,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $_POST["stock"],
         $_POST["entrepot_id"]
     );
-    header("Location: produits.php");
+    header("Location: produits.php?success=add");
     exit;
 }
 
-if ($action === "edit" && $id && $_SERVER["REQUEST_METHOD"] === "POST") {
-    Produit::updateByAdmin(
-        $pdo,
-        $_POST["nom"],
-        $_POST["prix"],
-        $_POST["stock"],
-        $_POST["entrepot_id"],
-        $id
-    );
-    header("Location: produits.php");
-    exit;
-}
-
+// SUPPRESSION
 if ($action === "delete" && $id) {
     Produit::delete($pdo, $id);
-    header("Location: produits.php");
+    header("Location: produits.php?success=delete");
     exit;
 }
 
@@ -115,11 +119,11 @@ $produits = Produit::getById($pdo, $id);
 
 <form method="POST">
     <label>Nom du produit</label><br>
-    <input name="nom" value="<?= htmlspecialchars($produits["nom"]) ?>"><br><br>
+    <input name="nom" value="<?= htmlspecialchars($produits["nom"]) ?>" required><br><br>
     <label>Prix unitaire (€)</label><br>
-    <input name="prix" value="<?= htmlspecialchars($produits["prix"]) ?>"><br><br>
+    <input name="prix" value="<?= htmlspecialchars($produits["prix"]) ?>" required><br><br>
     <label>Stock</label><br>
-    <input name="stock" value="<?= htmlspecialchars($produits["stock"]) ?>"><br><br>
+    <input name="stock" value="<?= htmlspecialchars($produits["stock"]) ?>" required><br><br>
     <label>Entrepôt</label><br>
     <select name="entrepot_id" required>
         <?php foreach ($entrepots as $e): ?>
