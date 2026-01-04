@@ -53,91 +53,153 @@ $entrepots = Produit::getEntrepots($pdo);
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Admin - Produits</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <?php include "../../includes/navbar_admin.php"; ?>
-<h1>Gestion des produits</h1>
+<div class="container-xl mt-5">
+    <h1 class="mb-4">Gestion des produits</h1>
+    <?php if ($action === "list" || $action === "add"): ?>
+    <div class="card shadow mb-5">
+        <div class="card-body">
+            <h4 class="mb-3">Ajouter un produit</h4>
 
-<h2>Ajouter un produit</h2>
+            <form method="POST" class="row g-3">
 
-<form method="POST">
-    <label>Nom du produit</label><br>
-    <input name="nom" placeholder="Nom du produit" required><br><br>
-    <label>Prix unitaire (€)</label><br>
-    <input type="number" name="prix" step="0.01" required><br><br>
-    <label>Stock</label><br>
-    <input type="number" name="stock" placeholder="Stock" min="0" required><br><br>
-    <label>Entrepôt</label><br>
-    <select name="entrepot_id" required>
-        <?php foreach ($entrepots as $e): ?>
-            <option value="<?= $e["id"] ?>"><?= $e["nom"] ?></option>
-        <?php endforeach; ?>
-    </select><br><br>
+                <div class="col-md-6">
+                    <label class="form-label">Nom du produit</label>
+                    <input name="nom" class="form-control" placeholder="Nom du produit" required>
+                </div>
 
-    <button>Créer</button>
-</form>
+                <div class="col-md-3">
+                    <label class="form-label">Prix unitaire (€)</label>
+                    <input type="number" name="prix" step="0.01" class="form-control" required>
+                </div>
 
-<hr>
+                <div class="col-md-3">
+                    <label class="form-label">Stock</label>
+                    <input type="number" name="stock" min="0" class="form-control" required>
+                </div>
 
-<h2>Stocks disponibles</h2>
+                <div class="col-md-6">
+                    <label class="form-label">Entrepôt</label>
+                    <select name="entrepot_id" class="form-select" required>
+                        <?php foreach ($entrepots as $e): ?>
+                            <option value="<?= $e["id"] ?>">
+                                <?= htmlspecialchars($e["nom"]) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
 
-<?php if ($action === "list"): 
-$produits = Produit::getAll($pdo);
-endif; ?>
+                <div class="col-12 text-end">
+                    <button class="btn btn-success">
+                        ➕ Créer le produit
+                    </button>
+                </div>
 
-<table border="1" cellpadding="5">
-<tr>
-    <th>Produit</th>
-    <th>Prix unitaire (€)</th>
-    <th>Stock</th>
-    <th>Entrepôt</th>
-    <th>Action</th>
-</tr>
+            </form>
+        </div>
+    </div>
+    <?php endif; ?>
+    <div class="card shadow mb-5">
+        <div class="card-body">
+            <h4 class="mb-3">Stocks disponibles</h4>
 
-<?php foreach ($produits as $p): ?>
-<tr>
-    <td><?= $p["nom"] ?></td>
-    <td><?= number_format($p["prix"], 2) ?></td>
-    <td><?= $p["stock"] ?></td>
-    <td><?= $p["entrepot"] ?></td>
-    <td><a href="?action=edit&id=<?= $p["id"] ?>">✏️</a> 
-        <a href="?action=delete&id=<?= $p["id"] ?>"
-           onclick="return confirm('Supprimer ce produit ?')">🗑️</a></td>
-</tr>
-<?php endforeach; ?>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Produit</th>
+                            <th>Prix unitaire (€)</th>
+                            <th>Stock</th>
+                            <th>Entrepôt</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($produits as $p): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($p["nom"]) ?></td>
+                            <td><?= number_format($p["prix"], 2, ',', ' ') ?> €</td>
+                            <td>
+                                <span class="badge <?= $p["stock"] > 0 ? 'bg-success' : 'bg-danger' ?>">
+                                    <?= $p["stock"] ?>
+                                </span>
+                            </td>
+                            <td><?= htmlspecialchars($p["entrepot"]) ?></td>
+                            <td class="text-end">
+                                <a href="?action=edit&id=<?= $p["id"] ?>" class="btn btn-sm btn-outline-primary">
+                                    ✏️
+                                </a>
+                                <a href="?action=delete&id=<?= $p["id"] ?>"
+                                   class="btn btn-sm btn-outline-danger"
+                                   onclick="return confirm('Supprimer ce produit ?')">
+                                    🗑️
+                                </a>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
-<?php if ($action === "edit" && $id): 
-$produits = Produit::getById($pdo, $id);
-?>
+    <?php if ($action === "edit" && $id): 
+    $produits = Produit::getById($pdo, $id);
+    ?>
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <h4 class="mb-3">Modifier le produit</h4>
 
-<h2>Modifier le produit</h2>
+            <form method="POST" class="row g-3">
 
-<form method="POST">
-    <label>Nom du produit</label><br>
-    <input name="nom" value="<?= htmlspecialchars($produits["nom"]) ?>" required><br><br>
-    <label>Prix unitaire (€)</label><br>
-    <input name="prix" value="<?= htmlspecialchars($produits["prix"]) ?>" required><br><br>
-    <label>Stock</label><br>
-    <input name="stock" value="<?= htmlspecialchars($produits["stock"]) ?>" required><br><br>
-    <label>Entrepôt</label><br>
-    <select name="entrepot_id" required>
-        <?php foreach ($entrepots as $e): ?>
-            <option value="<?= $e["id"] ?>"><?= $e["nom"] ?></option>
-        <?php endforeach; ?>
-    </select><br><br>
-    <button>Enregistrer</button>
-</form>
+                <div class="col-md-6">
+                    <label class="form-label">Nom</label>
+                    <input name="nom" value="<?= htmlspecialchars($produits["nom"]) ?>" class="form-control" required>
+                </div>
 
-<a href="produits.php">Retour</a>
-<?php endif; ?>
-</table>
+                <div class="col-md-3">
+                    <label class="form-label">Prix (€)</label>
+                    <input name="prix" value="<?= htmlspecialchars($produits["prix"]) ?>" class="form-control" required>
+                </div>
 
-<a href="dashboard.php">Retour admin</a>
+                <div class="col-md-3">
+                    <label class="form-label">Stock</label>
+                    <input name="stock" value="<?= htmlspecialchars($produits["stock"]) ?>" class="form-control" required>
+                </div>
 
+                <div class="col-md-6">
+                    <label class="form-label">Entrepôt</label>
+                    <select name="entrepot_id" class="form-select" required>
+                        <?php foreach ($entrepots as $e): ?>
+                            <option value="<?= $e["id"] ?>">
+                                <?= htmlspecialchars($e["nom"]) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="col-12 text-end">
+                    <button class="btn btn-primary">Enregistrer</button>
+                    <a href="produits.php" class="btn btn-outline-secondary">Annuler</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <?php endif; ?>
+
+    <div class="text-center">
+        <a href="dashboard.php" class="btn btn-outline-dark">
+            Retour admin
+        </a>
+    </div>
+</div>
 </body>
 </html>
