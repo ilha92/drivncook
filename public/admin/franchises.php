@@ -53,125 +53,212 @@ if ($action === "delete" && $id) {
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Admin - Franchisés</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+
 <?php include "../../includes/navbar_admin.php"; ?>
-<h1>Gestion des franchisés</h1>
 
-<?php if ($action === "list"): 
-$franchises = Franchise::getAll($pdo);
-?>
+<div class="container-xl mt-5">
 
-<a href="?action=add">Nouveau franchisé</a><br><br>
+    <h1 class="mb-4">Gestion des franchisés</h1>
 
-<table border="1" cellpadding="5">
-<tr>
-    <th>Nom</th>
-    <th>Email</th>
-    <th>Droit d'entrée</th>
-    <th>Ville</th>
-    <th>Actions</th>
-</tr>
+    <?php if ($action === "list"): 
+    $franchises = Franchise::getAll($pdo);
+    ?>
 
-<?php foreach ($franchises as $f): ?>
-<tr>
-    <td><?= htmlspecialchars($f["nom"]) ?></td>
-    <td><?= htmlspecialchars($f["email"]) ?></td>
-    <td><?= htmlspecialchars($f["droit_entree"] === 'accepte' ? 'Payé' : 'Non payé') ?></td>
-    <td><?= htmlspecialchars($f["ville"]) ?></td>
-    <td>
-        <a href="?action=detail&id=<?= $f["id"] ?>">🔍</a>
-        <a href="?action=edit&id=<?= $f["id"] ?>">✏️</a>
-        <a href="?action=delete&id=<?= $f["id"] ?>"
-           onclick="return confirm('Supprimer ce franchisé ?')">🗑️</a>
-    </td>
-</tr>
-<?php endforeach; ?>
-</table>
-<br><br> 
-<a href="../../pdf/franchises_pdf.php" target="_blank">Générer PDF des franchises</a>
-<br><br>
-<a href="dashboard.php">Dashboard</a>
-<?php endif; ?>
-<?php if ($action === "add"): ?>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="text-muted mb-0">Liste des franchisés</h5>
+        <a href="?action=add" class="btn btn-success">
+            Nouveau franchisé
+        </a>
+    </div>
 
-<h2>Ajouter un franchisé</h2>
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Nom</th>
+                        <th>Email</th>
+                        <th>Droit d'entrée</th>
+                        <th>Ville</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($franchises as $f): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($f["nom"]) ?></td>
+                        <td><?= htmlspecialchars($f["email"]) ?></td>
+                        <td>
+                            <?php if ($f["droit_entree"] === 'accepte'): ?>
+                                <span class="badge bg-success">Payé</span>
+                            <?php else: ?>
+                                <span class="badge bg-danger">Non payé</span>
+                            <?php endif; ?>
+                        </td>
+                        <td><?= htmlspecialchars($f["ville"]) ?></td>
+                        <td class="text-end">
+                            <a href="?action=detail&id=<?= $f["id"] ?>" class="btn btn-sm btn-outline-primary">🔍</a>
+                            <a href="?action=edit&id=<?= $f["id"] ?>" class="btn btn-sm btn-outline-warning">✏️</a>
+                            <a href="?action=delete&id=<?= $f["id"] ?>"
+                               class="btn btn-sm btn-outline-danger"
+                               onclick="return confirm('Supprimer ce franchisé ?')">🗑️</a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-<form method="POST">
-    <input name="nom" placeholder="Nom" required><br><br>
-    <input name="email" placeholder="Email" required><br><br>
-    <input name="password" type="password" placeholder="Mot de passe" required><br><br>
-    <input name="ville" placeholder="Ville"><br><br>
-    <input name="telephone" placeholder="Téléphone"><br><br>
-    <label>Date d'entrée :</label><br>
-    <input type="date" name="date_entree" required><br><br>
-    <button>Créer</button>
-</form>
+    <div class="mt-4 d-flex gap-3">
+        <a href="../../pdf/franchises_pdf.php" target="_blank" class="btn btn-outline-secondary">
+            Générer PDF
+        </a>
+        <a href="dashboard.php" class="btn btn-outline-dark">
+            Dashboard
+        </a>
+    </div>
 
-<a href="franchises.php">Retour</a>
+    <?php endif; ?>
+    <?php if ($action === "add"): ?>
 
-<?php endif; ?>
-<?php if ($action === "edit" && $id): 
-$franchise = Franchise::getById($pdo, $id);
-?>
+    <div class="card shadow mt-4">
+        <div class="card-body">
+            <h3 class="mb-4">Ajouter un franchisé</h3>
 
-<h2>Modifier le franchisé</h2>
+            <form method="POST" class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Nom</label>
+                    <input name="nom" class="form-control" required>
+                </div>
 
-<form method="POST">
-    <input name="nom" value="<?= htmlspecialchars($franchise["nom"]) ?>"><br><br>
-    <input name="email" value="<?= htmlspecialchars($franchise["email"]) ?>"><br><br>
-    <label>Droit d'entrée :</label><br>
-    <select name="droit_entree">
-        <option value="refuse" <?= $franchise["droit_entree"] === 'refuse' ? 'selected' : '' ?>>Non payé</option>
-        <option value="accepte" <?= $franchise["droit_entree"] === 'accepte' ? 'selected' : '' ?>>Payé</option>
-    </select><br><br>
-    <input name="ville" value="<?= htmlspecialchars($franchise["ville"]) ?>"><br><br>
-    <input name="telephone" value="<?= htmlspecialchars($franchise["telephone"]) ?>"><br><br>
-    <button>Enregistrer</button>
-</form>
+                <div class="col-md-6">
+                    <label class="form-label">Email</label>
+                    <input name="email" class="form-control" required>
+                </div>
 
-<a href="franchises.php">Retour</a>
+                <div class="col-md-6">
+                    <label class="form-label">Mot de passe</label>
+                    <input name="password" type="password" class="form-control" required>
+                </div>
 
-<?php endif; ?>
+                <div class="col-md-6">
+                    <label class="form-label">Ville</label>
+                    <input name="ville" class="form-control">
+                </div>
 
-<!-- Détail / Historique -->
-<?php if ($action === "detail" && $id): 
-$franchise = Franchise::getById($pdo, $id);
-$ventes = Franchise::getVentes($pdo, $id);
+                <div class="col-md-6">
+                    <label class="form-label">Téléphone</label>
+                    <input name="telephone" class="form-control">
+                </div>
 
-$totalCA = 0;
-foreach ($ventes as $v) {
-    $totalCA += $v["montant"];
-}
-$redevance = $totalCA * 0.04;
-?>
+                <div class="col-md-6">
+                    <label class="form-label">Date d'entrée</label>
+                    <input type="date" name="date_entree" class="form-control" required>
+                </div>
 
-<h2>Détail du franchisé</h2>
+                <div class="col-12">
+                    <button class="btn btn-success">Créer</button>
+                    <a href="franchises.php" class="btn btn-secondary ms-2">Retour</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <?php endif; ?>
+    <?php if ($action === "edit" && $id): 
+    $franchise = Franchise::getById($pdo, $id);
+    ?>
+    <div class="card shadow mt-4">
+        <div class="card-body">
+            <h3 class="mb-4">Modifier le franchisé</h3>
 
-<p><b>Nom :</b> <?= htmlspecialchars($franchise["nom"]) ?></p>
-<p><b>Email :</b> <?= htmlspecialchars($franchise["email"]) ?></p>
-<p><b>Date d'entrée :</b> <?= $franchise["date_entree"] ?></p>
-<p><b>Droit d'entrée :</b> <?= $franchise["droit_entree"] === 'accepte' ? 'Payé' : 'Non payé' ?></p>
+            <form method="POST" class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Nom</label>
+                    <input name="nom" value="<?= htmlspecialchars($franchise["nom"]) ?>" class="form-control">
+                </div>
 
-<h3>Historique des ventes</h3>
+                <div class="col-md-6">
+                    <label class="form-label">Email</label>
+                    <input name="email" value="<?= htmlspecialchars($franchise["email"]) ?>" class="form-control">
+                </div>
 
-<?php if (count($ventes) > 0): ?>
-<ul>
-<?php foreach ($ventes as $v): ?>
-    <li><?= $v["date_vente"] ?> - <?= $v["montant"] ?> €</li>
-<?php endforeach; ?>
-</ul>
-<?php else: ?>
-<p>Aucune vente enregistrée.</p>
-<?php endif; ?>
+                <div class="col-md-6">
+                    <label class="form-label">Droit d'entrée</label>
+                    <select name="droit_entree" class="form-select">
+                        <option value="refuse" <?= $franchise["droit_entree"] === 'refuse' ? 'selected' : '' ?>>Non payé</option>
+                        <option value="accepte" <?= $franchise["droit_entree"] === 'accepte' ? 'selected' : '' ?>>Payé</option>
+                    </select>
+                </div>
 
-<p><b>Chiffre d'affaires total :</b> <?= $totalCA ?> €</p>
-<p><b>4 % à reverser :</b> <?= $redevance ?> €</p>
-<a href="franchises.php">⬅ Retour</a>
+                <div class="col-md-6">
+                    <label class="form-label">Ville</label>
+                    <input name="ville" value="<?= htmlspecialchars($franchise["ville"]) ?>" class="form-control">
+                </div>
 
-<?php endif; ?>
+                <div class="col-md-6">
+                    <label class="form-label">Téléphone</label>
+                    <input name="telephone" value="<?= htmlspecialchars($franchise["telephone"]) ?>" class="form-control">
+                </div>
 
+                <div class="col-12">
+                    <button class="btn btn-warning">Enregistrer</button>
+                    <a href="franchises.php" class="btn btn-secondary ms-2">Retour</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <?php endif; ?>
+
+    <?php if ($action === "detail" && $id): 
+    $franchise = Franchise::getById($pdo, $id);
+    $ventes = Franchise::getVentes($pdo, $id);
+
+    $totalCA = 0;
+    foreach ($ventes as $v) {
+        $totalCA += $v["montant"];
+    }
+    $redevance = $totalCA * 0.04;
+    ?>
+
+    <div class="card shadow mt-4">
+        <div class="card-body">
+            <h3>Détail du franchisé</h3>
+
+            <p><strong>Nom :</strong> <?= htmlspecialchars($franchise["nom"]) ?></p>
+            <p><strong>Email :</strong> <?= htmlspecialchars($franchise["email"]) ?></p>
+            <p><strong>Date d'entrée :</strong> <?= $franchise["date_entree"] ?></p>
+            <p><strong>Droit d'entrée :</strong> <?= $franchise["droit_entree"] === 'accepte' ? 'Payé' : 'Non payé' ?></p>
+
+            <hr>
+
+            <h5>Historique des ventes</h5>
+
+            <?php if (count($ventes) > 0): ?>
+                <ul class="list-group mb-3">
+                    <?php foreach ($ventes as $v): ?>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span><?= $v["date_vente"] ?></span>
+                            <strong><?= $v["montant"] ?> €</strong>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php else: ?>
+                <p>Aucune vente enregistrée.</p>
+            <?php endif; ?>
+
+            <p><strong>CA total :</strong> <?= $totalCA ?> €</p>
+            <p><strong>4 % à reverser :</strong> <?= $redevance ?> €</p>
+
+            <a href="franchises.php" class="btn btn-outline-dark">⬅ Retour</a>
+        </div>
+    </div>
+    <?php endif; ?>
+</div>
 </body>
 </html>
