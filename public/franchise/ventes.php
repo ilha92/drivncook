@@ -120,8 +120,6 @@ $ventes = Vente::getByFranchise($pdo, $_SESSION["franchise_id"]);
 
         </div>
     </div>
-
 </div>
-
 </body>
 </html>

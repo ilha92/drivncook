@@ -125,11 +125,11 @@ $franchises = Franchise::getAll($pdo);
     <button>Créer</button>
 </form>
 
-<a href="camions.php">⬅ Retour</a>
+<a href="camions.php">Retour</a>
 
 <?php endif; ?>
 
-<!-- /j'appelle la modification -->
+<!-- j'appelle la modification -->
 <?php if ($action === "edit" && $id): 
 $camion = Camion::getById($pdo, $id);
 $franchises = Franchise::getAll($pdo);
