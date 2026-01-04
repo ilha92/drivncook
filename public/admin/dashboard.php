@@ -74,9 +74,9 @@ if (!isset($_SESSION["type"]) || $_SESSION["type"] !== "admin") {
         <div class="col-md-4">
             <div class="card shadow-sm h-100 text-center">
                 <div class="card-body">
-                    <h5 class="card-title">Achats</h5>
-                    <p class="card-text">Gérer les achats et fournisseurs.</p>
-                    <a href="achats.php" class="btn btn-primary w-100">Accéder</a>
+                    <h5 class="card-title">Gerer les entrepôts</h5>
+                    <p class="card-text">Gerer les entrepôts et leurs informations.</p>
+                    <a href="entrepots.php" class="btn btn-primary w-100">Accéder</a>
                 </div>
             </div>
         </div>
