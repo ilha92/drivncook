@@ -1,199 +1,124 @@
-# Projet Driv'n Cook – Mission 1
+Projet Driv'n Cook – Mission 1
 
-## Présentation générale
+j'ai heberger mon site voici l'url : https://inkwei.com/
 
-Ce projet correspond à la **Mission 1 : Gestion des services franchisés** du projet annuel ESGI 2024-2025.
+Présentation générale
+Ce projet correspond à la Mission 1 : Gestion des services franchisés du projet annuel ESGI 2024-2025.
+​
+L’objectif est de développer une application web permettant à la société Driv'n Cook de gérer les franchisés, les camions, les pannes, l’entretien, l’approvisionnement et les ventes.
 
-L’objectif est de développer une **application web** permettant à la société **Driv'n Cook** de gérer :
+Technologies utilisées
+Back-end : PHP (sans framework)
 
-- les franchisés
-- le parc de camions
-- les pannes et le carnet d’entretien
-- l’approvisionnement
-- les ventes et leur historique
+Front-end : HTML, CSS, JavaScript (basique)
 
-L’application est développée avec des technologies **simples et accessibles** afin de garantir une bonne compréhension du code.
+Base de données : MySQL
 
----
+Outil BDD : MySQL Workbench
 
-## Technologies utilisées
+Serveur local : WAMP
 
-- **Back-end** : PHP (sans framework)
-- **Front-end** : HTML, CSS, JavaScript (basique)
-- **Base de données** : MySQL
-- **Outil BDD** : MySQL Workbench
-- **Serveur local** : WAMP
+Ces choix restent simples pour se concentrer sur la logique métier et l’organisation du code.
+​
 
----
+Architecture du projet
+L’architecture est découpée par responsabilités : accès, pages publiques, génération de PDF, configuration, logique applicative et ressources front.
+​
 
-## Architecture générale du projet
-
-Le projet est organisé de manière claire afin de séparer les responsabilités et faciliter la maintenance.
-
-```text
+text
 drivncook/
 │
 ├── access/
-|   ├── login.php
-│   ├── register.php
-│   └── logout.php
-
+│ ├── login.php
+│ ├── register.php
+│ └── logout.php
+│
 ├── public/
-  ├── franchise/
-│   ├── dashboard.php
-│   ├── profil.php
-│   ├── edit_profil.php
-│   ├── achats.php
-│   └── nouvel_achat.php
-
-│   ├── index.php
-
+│ ├── index.php
+│ ├── admin/
+│ │ ├── dashboard.php
+│ │ ├── achats.php
+│ │ ├── approvisionnements.php
+│ │ ├── camions.php
+│ │ ├── entrepots.php
+│ │ ├── franchises.php
+│ │ ├── produits.php
+│ │ └── ventes.php
+│ └── franchise/
+│ ├── dashboard.php
+│ ├── profil.php
+│ ├── achat.php
+│ ├── achats.php
+│ ├── camions.php
+│ ├── commandes.php
+│ ├── entretien.php
+│ └── ventes.php
+│
+├── pdf/
+│ ├── franchises_pdf.php
+│ └── ventes_pdf.php
+│
 ├── config/
-│   └── database.php
+│ └── database.php
 │
 ├── src/
-│   ├── models/
-│   │   ├── Admin.php
-│   │   ├── Franchise.php
-│   │   └── Camion.php
+│ ├── models/
+│ │ ├── Admin.php
+│ │ ├── Franchise.php
+│ │ ├── Camion.php
+│ │ ├── Produit.php
+│ │ ├── Vente.php
+│ │ └── Entretien.php
+│ └── controllers/
+│ ├── AuthController.php
+│ ├── FranchiseController.php
+│ ├── CamionController.php
+│ ├── ProduitController.php
+│ ├── VenteController.php
+│ └── EntretienController.php
 │
 ├── assets/
-│   ├── css/
-│   │   └── style.css
-│   │
-│   └── js/
-│       └── script.js
+│ ├── css/
+│ │ └── style.css
+│ └── js/
+│ └── script.js
 │
 └── README.md
 
-```
+Fonctionnalités principales
+Gestion des franchisés : création, modification, suppression, consultation.
 
----
+Gestion du parc de camions et des entrepôts, avec suivi des entretiens et des pannes.
 
-## Détail des dossiers et fichiers
+Gestion des produits, des approvisionnements et des achats des franchisés.
 
-### `config/`
+Gestion des ventes avec historique accessible pour l’admin et les franchisés.
 
-Contient les fichiers de configuration du projet.
+Génération de PDF pour les listes de franchisés et les rapports de ventes.
 
-- `database.php` :
+Ces fonctionnalités couvrent la gestion opérationnelle d’un réseau de franchises (administration centrale et côté franchisé).
+​
 
-  - gère la connexion à la base de données MySQL
-  - crée l’objet `$pdo` utilisé dans tout le projet
+Accès et rôles
+Deux types d’utilisateurs existent dans l’application.
 
----
+Administrateur
 
-### `public/`
+Créé directement dans la base de données.
 
-Dossier accessible depuis le navigateur.
+Accès au back-office (gestion des franchisés, camions, produits, ventes, etc.).
 
-- `index.php` : page d’accueil
-- `login.php` : formulaire de connexion
-- `register.php` : formulaire d’inscription permettant la création d’un compte franchisé
-- `logout.php` : déconnexion de l’utilisateur
+Le rôle admin n’apparaît jamais dans les formulaires.
 
-Ce dossier est le **point d’entrée du site web**.
+Franchisé
 
----
+Peut créer un compte via register.php.
 
-### `src/`
+Le rôle est défini automatiquement côté PHP lors de l’inscription.
 
-Contient toute la logique de l’application.
+Accès à un espace personnel pour suivre ses camions, ses commandes, ses achats et ses ventes.
 
-### `controllers/`
+La séparation des rôles permet de sécuriser les droits et de limiter les actions possibles selon le profil.
+​
 
-Les contrôleurs gèrent les actions de l’utilisateur.
-
-- `AuthController.php` :
-
-  - connexion
-  - gestion des sessions
-  - redirections selon le rôle (admin ou franchisé)
-
-- `FranchiseController.php` :
-
-  - création d’un franchisé
-  - modification
-  - suppression
-  - affichage
-
-- `CamionController.php` :
-
-  - gestion du parc de camions
-  - attribution à un franchisé
-
----
-
-#### 📂 `models/`
-
-Les modèles communiquent avec la base de données.
-
-- `Admin.php` :
-
-  - requêtes SQL liées aux Administrateurs
-
-- `Franchise.php` :
-
-  - requêtes SQL liées aux franchisés
-
-- `Camion.php` :
-
-  - requêtes SQL liées aux camions
-
-👉 Chaque modèle correspond à une table de la base de données.
-
----
-
-#### 📂 `views/`
-
-Contient les pages HTML affichées à l’utilisateur.
-
-- `admin/` :
-
-  - pages accessibles uniquement à l’administrateur
-
-- `franchise/` :
-
-  - espace personnel du franchisé
-
----
-
-### 🔹 `assets/`
-
-Contient les fichiers statiques.
-
-- `css/` : styles CSS
-- `js/` : scripts JavaScript simples
-
----
-
-## 🔐 Gestion des rôles et inscription
-
-Deux types d’utilisateurs existent :
-
-- **Administrateur**
-
-  - créé directement dans la base de données
-  - accès au back-office
-  - aucun utilisateur ne peut s’inscrire en tant qu’administrateur
-
-- **Franchisé**
-
-  - peut créer son compte via la page d’inscription (register)
-  - le rôle `franchise` est attribué automatiquement côté serveur
-  - accès à un espace personnel
-
-⚠️ Le rôle **administrateur n’est jamais disponible** dans les formulaires.
-⚠️ Le rôle `franchise` est défini automatiquement côté PHP lors de l’inscription.
-
----
-
-## Évolutions prévues
-
-- génération de PDF (ventes, historiques)
-- amélioration de la sécurité
-- ajout de statistiques
-
----
-
-**Projet réalisé dans le cadre du projet annuel ESGI 2024-2025 – Mission 1**
+Projet réalisé dans le cadre du projet annuel ESGI 2024-2025 – Mission 1.
