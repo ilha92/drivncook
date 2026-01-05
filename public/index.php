@@ -15,7 +15,7 @@ if (!isset($_SESSION["type"])) {
 </head>
 <body>
 
-    <!-- ADMIN -->
+    <!-- coter admin -->
     <?php if ($_SESSION["type"] === "admin"): ?>
         <?php include "../includes/navbar_admin.php"; ?>
         <div class="container mt-5">
@@ -39,40 +39,38 @@ if (!isset($_SESSION["type"])) {
             </div>
         </div>
     <?php endif; ?>
+    <!-- coter franchisé -->
+    <?php if ($_SESSION["type"] === "franchise"): ?>
+        <?php include "../includes/navbar.php"; ?>
+        <div class="container mt-5">
+            <h1 class="text-center mb-5">Accueil</h1>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow text-center">
+                    <div class="card-body">
+                        <h3 class="mb-3">
+                            Bienvenue <?= htmlspecialchars($_SESSION["nom"]) ?>
+                        </h3>
 
-<?php if ($_SESSION["type"] === "franchise"): ?>
-    <?php include "../includes/navbar.php"; ?>
-    <div class="container mt-5">
-        <h1 class="text-center mb-5">Accueil</h1>
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow text-center">
-                <div class="card-body">
-                    <h3 class="mb-3">
-                        Bienvenue <?= htmlspecialchars($_SESSION["nom"]) ?>
-                    </h3>
-
-                    <div class="d-grid gap-3">
-                        <a href="franchise/profil.php" class="btn btn-success">
-                            Mon profil
-                        </a>
-                        <a href="franchise/dashboard.php" class="btn btn-dark">
-                            Tableau de bord franchise
-                        </a>
+                        <div class="d-grid gap-3">
+                            <a href="franchise/profil.php" class="btn btn-success">
+                                Mon profil
+                            </a>
+                            <a href="franchise/dashboard.php" class="btn btn-dark">
+                                Tableau de bord franchise
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-<?php endif; ?>
-    <!-- DECONNEXION -->
+    <?php endif; ?>
+    <!-- deconnexion -->
     <div class="text-center mt-5">
         <a href="../../access/logout.php" class="btn btn-outline-danger">
-            🔒 Se déconnecter
+            Se déconnecter
         </a>
     </div>
-
 </div>
-
 </body>
 </html>

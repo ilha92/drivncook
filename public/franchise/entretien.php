@@ -122,7 +122,7 @@ $entretiens = $stmt->fetchAll();
     <!-- RETOUR -->
     <div class="text-center mt-4">
         <a href="camions.php" class="btn btn-outline-dark">
-            ⬅ Retour
+            Retour
         </a>
     </div>
 

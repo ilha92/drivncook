@@ -184,7 +184,7 @@ $franchises = Franchise::getAll($pdo);
 
         <div class="text-center mt-3">
             <a href="camions.php" class="btn btn-outline-dark">
-                ⬅ Retour
+                Retour
             </a>
         </div>
 

@@ -2,10 +2,7 @@
 
 class Vente
 {
-    /* ==========================
-       FRANCHISÉ
-       ========================== */
-
+    // coter franchisé
     // Ajouter une vente (franchisé)
     public static function add($pdo, $franchise_id, $date, $nom, $montant)
     {
@@ -41,10 +38,7 @@ class Vente
         return $stmt->fetchColumn() ?? 0;
     }
 
-    /* ==========================
-       ADMIN
-       ========================== */
-
+    // coter  Admin
     // Toutes les ventes (admin)
     public static function getAll($pdo)
     {

@@ -107,13 +107,8 @@ $ventes = Vente::getByFranchise($pdo, $_SESSION["franchise_id"]);
                             </table>
                         </div>
                     <?php endif; ?>
-
-                    <a href="../../pdf/ventes_pdf.php" target="_blank" class="btn btn-outline-primary">
-                         Générer PDF
-                    </a>
-
                     <a href="dashboard.php" class="btn btn-secondary ms-2">
-                        ⬅ Retour dashboard
+                        Retour dashboard
                     </a>
                 </div>
             </div>

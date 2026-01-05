@@ -91,13 +91,10 @@ if ($_SESSION["droit_entree"] !== "accepte") {
                 </div>
             </div>
         </div>
-
     </div>
-
     <div class="text-center mt-5">
         <a href="../../access/logout.php" class="btn btn-outline-danger">Se déconnecter</a>
     </div>
-
 </div>
 </body>
 </html>

@@ -1,5 +1,4 @@
 <?php
-
 class Approvisionnement
 {
     public static function getAllCommandes($pdo)

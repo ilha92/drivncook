@@ -2,10 +2,7 @@
 
 class Franchise
 {
-    /* =========================
-       MÉTHODES COMMUNES
-       ========================= */
-
+    // methode communes aux franchises et admin
     public static function getById($pdo, $id)
     {
         $stmt = $pdo->prepare("SELECT * FROM franchises WHERE id = ?");
@@ -17,11 +14,7 @@ class Franchise
     {
         return $pdo->query("SELECT * FROM franchises")->fetchAll();
     }
-
-    /* =========================
-       MÉTHODES ADMIN
-       ========================= */
-
+    //Methodes pour l'admin
     // Création par l'admin
     public static function create($pdo, $nom, $email, $ville, $telephone, $date_entree)
     {
@@ -55,10 +48,7 @@ class Franchise
         return $stmt->execute([$id]);
     }
 
-    /* =========================
-       MÉTHODES FRANCHISÉ
-       ========================= */
-
+    //Methodes pour le franchisé
     // Modifier son profil (email, ville + téléphone + mot de passe)
     public static function updateProfil($pdo, $email, $nom, $ville, $telephone, $password, $id)
     {
@@ -81,10 +71,8 @@ class Franchise
         $stmt = $pdo->prepare("UPDATE franchises SET mot_de_passe = ? WHERE id = ?");
         return $stmt->execute([$hash, $id]);
     }
-    /* =========================
-       HISTORIQUE
-       ========================= */
 
+    // Récupérer les ventes d'une franchise
     public static function getVentes($pdo, $id)
     {
         $stmt = $pdo->prepare("SELECT * FROM ventes WHERE franchise_id = ?");

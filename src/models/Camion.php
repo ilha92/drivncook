@@ -2,10 +2,6 @@
 
 class Camion
 {
-    /* =========================
-      COTER  ADMIN
-       ========================= */
-
    public static function getAll($pdo)
 {
     $sql = "
@@ -98,11 +94,6 @@ class Camion
         return $stmt->execute([$camion_id]);
     }
 
-
-    /* =========================
-        COTER FRANCHISÉ
-       ========================= */
-
     public static function getByFranchise($pdo, $franchise_id)
     {
         $stmt = $pdo->prepare("SELECT * FROM camions WHERE franchise_id = ?");
@@ -110,10 +101,7 @@ class Camion
         return $stmt->fetchAll();
     }
 
-    /* =========================
-       PANNES (COMMUN)
-       ========================= */
-
+    //Pannes communes aux camions
     public static function addPanne($pdo, $camion_id, $date, $type, $description)
     {
         // Enregistrer la panne

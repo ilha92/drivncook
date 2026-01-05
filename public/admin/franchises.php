@@ -255,7 +255,7 @@ if ($action === "delete" && $id) {
             <p><strong>CA total :</strong> <?= $totalCA ?> €</p>
             <p><strong>4 % à reverser :</strong> <?= $redevance ?> €</p>
 
-            <a href="franchises.php" class="btn btn-outline-dark">⬅ Retour</a>
+            <a href="franchises.php" class="btn btn-outline-dark">Retour</a>
         </div>
     </div>
     <?php endif; ?>

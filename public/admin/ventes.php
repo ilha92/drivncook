@@ -20,7 +20,6 @@ foreach ($ventes as $v) {
     $caParFranchise[$nom] += $v["montant"];
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -41,9 +40,7 @@ foreach ($ventes as $v) {
         const chartLabels = <?= json_encode(array_keys($caParFranchise)) ?>;
         const chartData = <?= json_encode(array_values($caParFranchise)) ?>;
     </script>
-
 </head>
-
 <body>
 <?php include "../../includes/navbar_admin.php"; ?>
 <div class="container-xl mt-5">
@@ -76,10 +73,6 @@ foreach ($ventes as $v) {
             </div>
         </div>
     </div>
-
-    <!-- =========================
-         GRAPHIQUE
-    ========================== -->
     <div class="card shadow mb-4">
         <div class="card-body text-center">
             <h4 class="mb-3">Répartition du chiffre d'affaires</h4>
@@ -104,9 +97,6 @@ foreach ($ventes as $v) {
             Retour admin
         </a>
     </div>
-
 </div>
-
 </body>
-
 </html>

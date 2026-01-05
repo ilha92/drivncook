@@ -98,7 +98,7 @@ $entrepots = Produit::getEntrepots($pdo);
 
                 <div class="col-12 text-end">
                     <button class="btn btn-success">
-                        ➕ Créer le produit
+                        Créer le produit
                     </button>
                 </div>
 

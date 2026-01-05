@@ -30,11 +30,8 @@ if (isset($_POST["payer"])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-
 <?php include "../../includes/navbar.php"; ?>
-
 <div class="container mt-5">
-
     <div class="row justify-content-center">
         <div class="col-md-6">
 
@@ -61,20 +58,15 @@ if (isset($_POST["payer"])) {
                             Payer maintenant
                         </button>
                     </form>
-
                 </div>
             </div>
-
             <div class="text-center mt-4">
                 <a href="../index.php" class="btn btn-outline-dark">
-                    ⬅ Retour
+                    Retour
                 </a>
             </div>
-
         </div>
     </div>
-
 </div>
-
 </body>
 </html>
