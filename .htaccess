@@ -1,0 +1,30 @@
+RewriteEngine On
+
+# Supprimer index.php de l’URL
+RewriteCond %{THE_REQUEST} /index\.php [NC]
+RewriteRule ^(.*)index\.php$ /$1 [R=301,L]
+
+# Admin
+RewriteRule ^admin/dashboard$ public/admin/dashboard.php [L]
+RewriteRule ^admin/franchises$ public/admin/franchises.php [L]
+RewriteRule ^admin/produits$ public/admin/produits.php [L]
+RewriteRule ^admin/ventes$ public/admin/ventes.php [L]
+RewriteRule ^admin/camions$ public/admin/camions.php [L]
+RewriteRule ^admin/approvisionnements$ public/admin/approvisionnements.php [L]
+RewriteRule ^admin/franchises/([0-9]+)/edit/?$ admin/franchises.php?action=edit&id=$1 [L]
+RewriteRule ^admin/franchises/([0-9]+)/detail/?$ admin/franchises.php?action=detail&id=$1 [L]
+RewriteRule ^admin/entrepots/([0-9]+)/edit/?$ admin/entrepots.php?action=edit&id=$1 [L]
+
+# Franchise
+RewriteRule ^franchise/dashboard$ public/franchise/dashboard.php [L]
+RewriteRule ^franchise/profil$ public/franchise/profil.php [L]
+RewriteRule ^franchise/commandes$ public/franchise/commandes.php [L]
+RewriteRule ^franchise/ventes$ public/franchise/ventes.php [L]
+RewriteRule ^franchise/camions$ public/franchise/camions.php [L]
+RewriteRule ^franchise/nouvel-achat$ public/franchise/nouvel_achat.php [L]
+RewriteRule ^franchise/entretien$ public/franchise/entretien.php [L]
+RewriteRule ^franchise/droit-entree$ public/franchise/droit_entree.php [L]
+# Erreur 404 / 403 / 500 personnalisées
+ErrorDocument 404 /errors/404.php
+ErrorDocument 403 /errors/403.php
+ErrorDocument 500 /errors/500.php
